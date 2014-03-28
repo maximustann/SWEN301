@@ -1,0 +1,14 @@
+<!ELEMENT cost_list (cost)*>
+<!ELEMENT cost (company, to, from, type, weightcost, volumecost, maxWeight, MaxVolume, duration, frequency, day)>
+<!ATTLIST cost cost_Id ID #REQUIRED>
+
+<!ELEMENT company (#PCDATA)>
+<!ELEMENT to (#PCDATA)>
+<!ELEMENT from (#PCDATA)>
+<!ELEMENT weightcost (#PCDATA)>
+<!ELEMENT volumecost (#PCDATA)>
+<!ELEMENT maxWeight (#PCDATA)>
+<!ELEMENT maxVolume (#PCDATA)>
+<!ELEMENT duration (#PCDATA)>
+<!ELEMENT frequency (#PCDATA)>
+<!ELEMENT day (#PCDATA)>
