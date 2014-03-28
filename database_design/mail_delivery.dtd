@@ -1,3 +1,4 @@
+<!ELEMENT mail_delivery_events (mail)*>
 <!ELEMENT mail (day, to, from, weight, volume, priority)>
 <!ATTLIST  mail mail_id ID #REQUIRED>
 <!ELEMENT day (#PCDATA)>

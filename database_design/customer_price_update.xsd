@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.kelburnpostoffice.com/XMLSchema">
+		<xs:element name="customer_price_update">
+				<xs:complexType>
+						<xs:element name="price" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+										<xs:sequence>
+												<xs:element name="to" type="xs:string"/>
+												<xs:element name="from" type="xs:string"/>
+												<xs:element name="priority" type="xs:string"/>
+												<xs:element name="weightcost" type="xs:decimal"/>
+												<xs:element name="volumecost" type="xs:decimal"/>
+										</xs:sequence>
+								</xs:complexType>
+								<xs:attribute name="Price_ID" type="ID" use="required"/>
+						</xs:element>
+				</xs:complexType>
+		</xs:element>
+</xs:sechema>
