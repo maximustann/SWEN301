@@ -1,36 +1,54 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.kelburnpostoffice.com/XMLSchema">
-	<xs:element name="transport_cost">
-		<xs:complexType>
-			<xs:element name="cost" minOccurs="0" maxOccurs="unbounded">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="company" type="xs:string"/>
-						<xs:element name="to" type="xs:string"/>
-						<xs:element name="From" type="xs:string"/>
-						<xs:element name="type" type="xs:string"/>
-						<xs:element name="weightcost" type="xs:decimal"/>
-						<xs:element name="volumecost" type="xs:decimal"/>
-						<xs:element name="maxWeight" type="xs:decimal"/>
-						<xs:element name="maxVolume" type="xs:decimal"/>
-						<xs:element name="duration" type="xs:integer"/>
-						<xs:element name="day">
-							<xs:simpleType>
-								<xs:restriction base="xs:string">
-									<xs:enumeration value="Monday"/>
-									<xs:enumeration value="Tuesday"/>
-									<xs:enumeration value="Wednesday"/>
-									<xs:enumeration value="Thursday"/>
-									<xs:enumeration value="Friday"/>
-									<xs:enumeration value="Saturday"/>
-									<xs:enumeration value="Sunday"/>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:element>
-					</xs:sequence>
-				</xs:complexType>
-				<xs:attribute name="Cost_Id" type="ID" use="required"/>
-			</xs:element>
-		</xs:complexType>
-	</xs:element>	
+<!--simpleType-->
+<xs:element name="company" type="xs:string"/>
+<xs:element name="to" type="xs:string"/>
+<xs:element name="From" type="xs:string"/>
+<xs:element name="type" type="xs:string"/>
+<xs:element name="weightcost" type="xs:decimal"/>
+<xs:element name="volumecost" type="xs:decimal"/>
+<xs:element name="maxWeight" type="xs:decimal"/>
+<xs:element name="maxVolume" type="xs:decimal"/>
+<xs:element name="duration" type="xs:integer"/>
+<xs:element name="day">
+	<xs:simpleType>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Monday"/>
+			<xs:enumeration value="Tuesday"/>
+			<xs:enumeration value="Wednesday"/>
+			<xs:enumeration value="Thursday"/>
+			<xs:enumeration value="Friday"/>
+			<xs:enumeration value="Saturday"/>
+			<xs:enumeration value="Sunday"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:element>
+<!--complexType-->
+<xs:element name="transport_cost">
+	<xs:complexType>
+		<xs:element ref="cost" minOccurs="0" maxOccurs="unbounded">
+	</xs:complexType>
 </xs:schema>
+
+
+<xs:element name="cost">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element ref="company"/>
+			<xs:element ref="to"/>
+			<xs:element ref="from"/>
+			<xs:element ref="type"/>
+			<xs:element ref="weightcost"/>
+			<xs:element ref="volumecost"/>
+			<xs:element ref="maxWeight"/>
+			<xs:element ref="maxVolume"/>
+			<xs:element ref="duration"/>
+			<xs:element ref="day"/>
+		</xs:sequence>
+	<xs:attribute ref="Cost_Id" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+
+<!--attribute-->
+<xs:attribute name="Cost_Id" type="ID"/>
