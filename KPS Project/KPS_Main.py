@@ -1,13 +1,5 @@
-# -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'KPS_Main.ui'
-#
-# Created: Mon Apr 21 15:19:19 2014
-#      by: PyQt4 UI code generator 4.10.4
-#
-# WARNING! All changes made in this file will be lost!
-
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtCore, QtGui;
 from KPS_Hub import *;
 from KPS_Routes import *;
 
@@ -28,32 +20,55 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(722, 545)
+        MainWindow.resize(725, 511)
+        palette = QtGui.QPalette()
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(8, 129, 2))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(8, 129, 2))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(8, 129, 2))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(8, 129, 2))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
+        MainWindow.setPalette(palette)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.treeView = QtGui.QTreeView(self.centralwidget)
-        self.treeView.setGeometry(QtCore.QRect(10, 40, 661, 451))
+        self.treeView.setGeometry(QtCore.QRect(20, 100, 661, 341))
         self.treeView.setObjectName(_fromUtf8("treeView"))
         self.bt_hubs = QtGui.QPushButton(self.centralwidget)
-        self.bt_hubs.setGeometry(QtCore.QRect(10, 10, 75, 23))
+        self.bt_hubs.setGeometry(QtCore.QRect(380, 10, 75, 23))
         self.bt_hubs.setObjectName(_fromUtf8("bt_hubs"))
-        self.bt_hubs.clicked.connect(self.clicked_bt_Hubs)
         self.bt_Routes = QtGui.QPushButton(self.centralwidget)
-        self.bt_Routes.setGeometry(QtCore.QRect(90, 10, 75, 23))
+        self.bt_Routes.setGeometry(QtCore.QRect(380, 40, 75, 23))
         self.bt_Routes.setObjectName(_fromUtf8("bt_Routes"))
-        self.bt_Routes.clicked.connect(self.clicked_bt_Routes)
         self.bt_MailItems = QtGui.QPushButton(self.centralwidget)
-        self.bt_MailItems.setGeometry(QtCore.QRect(170, 10, 75, 23))
+        self.bt_MailItems.setGeometry(QtCore.QRect(470, 10, 75, 23))
         self.bt_MailItems.setObjectName(_fromUtf8("bt_MailItems"))
         self.bt_Companys = QtGui.QPushButton(self.centralwidget)
-        self.bt_Companys.setGeometry(QtCore.QRect(250, 10, 75, 23))
+        self.bt_Companys.setGeometry(QtCore.QRect(470, 40, 75, 23))
         self.bt_Companys.setObjectName(_fromUtf8("bt_Companys"))
         self.bt_Reports = QtGui.QPushButton(self.centralwidget)
-        self.bt_Reports.setGeometry(QtCore.QRect(330, 10, 75, 23))
+        self.bt_Reports.setGeometry(QtCore.QRect(560, 10, 75, 23))
         self.bt_Reports.setObjectName(_fromUtf8("bt_Reports"))
+        self.label = QtGui.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(10, 0, 321, 81))
+        self.label.setText(_fromUtf8(""))
+        self.label.setPixmap(QtGui.QPixmap(_fromUtf8("Images/logo_small.png")))
+        self.label.setObjectName(_fromUtf8("label"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 722, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 725, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuHome = QtGui.QMenu(self.menubar)
         self.menuHome.setObjectName(_fromUtf8("menuHome"))
@@ -77,7 +92,8 @@ class Ui_MainWindow(object):
         self.menuAdd_Hub.addAction(self.actionAdd_Company)
         self.menubar.addAction(self.menuHome.menuAction())
         self.menubar.addAction(self.menuAdd_Hub.menuAction())
-
+        self.bt_hubs.clicked.connect(self.clicked_bt_Hubs)
+        self.bt_Routes.clicked.connect(self.clicked_bt_Routes)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -108,11 +124,11 @@ class Ui_MainWindow(object):
         result = Dialog.exec_()
 
 if __name__ == '__main__':
-    import sys
-    
-    app = QtGui.QApplication(sys.argv)
-    MainWindow = QtGui.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
+         import sys
+         
+         app = QtGui.QApplication(sys.argv)
+         MainWindow = QtGui.QMainWindow()
+         ui = Ui_MainWindow()
+         ui.setupUi(MainWindow)
+         MainWindow.show()
+         sys.exit(app.exec_())
