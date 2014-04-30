@@ -2,7 +2,7 @@
 from PyQt4 import QtCore, QtGui;
 from KPS_Hub import *;
 from KPS_Routes import *;
-
+import login
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -19,6 +19,10 @@ except AttributeError:
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+
+        self.login()
+
+
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(725, 511)
         palette = QtGui.QPalette()
@@ -111,6 +115,11 @@ class Ui_MainWindow(object):
         self.actionAdd_Mail_Item.setText(_translate("MainWindow", "Mail Items", None))
         self.actionAdd_Company.setText(_translate("MainWindow", "Companys", None))
 
+    def login(self):
+        Dialog = QtGui.QDialog()
+        ui = login.Ui_Dialog()
+        ui.setupUi(Dialog)
+        Dialog.exec_()
     def clicked_bt_Hubs(self):
         Dialog = QtGui.QDialog()
         ui = Ui_wn_Hubs()
