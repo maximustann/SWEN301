@@ -2,7 +2,7 @@
 from PyQt4 import QtCore, QtGui;
 from KPS_Hub import *;
 from KPS_Routes import *;
-import login
+import KPS_login
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -19,9 +19,6 @@ except AttributeError:
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-
-        self.login()
-
 
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(725, 511)
@@ -115,11 +112,7 @@ class Ui_MainWindow(object):
         self.actionAdd_Mail_Item.setText(_translate("MainWindow", "Mail Items", None))
         self.actionAdd_Company.setText(_translate("MainWindow", "Companys", None))
 
-    def login(self):
-        Dialog = QtGui.QDialog()
-        ui = login.Ui_Dialog()
-        ui.setupUi(Dialog)
-        Dialog.exec_()
+
     def clicked_bt_Hubs(self):
         Dialog = QtGui.QDialog()
         ui = Ui_wn_Hubs()
@@ -132,12 +125,30 @@ class Ui_MainWindow(object):
         ui.setupUi(Dialog)
         result = Dialog.exec_()
 
+class KPS_MainWindow(QtGui.QMainWindow):
+    def __init__(self):
+        user = self.login()
+        print user
+        if user == None:
+            sys.exit(-1)
+
+        super(KPS_MainWindow, self).__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+
+    def login(self):
+        Dialog = KPS_login.My_Dialog()
+        Dialog.show()
+        result = Dialog.exec_()
+        if result == 1:
+            return Dialog.get_value()
+
+
+
 if __name__ == '__main__':
          import sys
          
          app = QtGui.QApplication(sys.argv)
-         MainWindow = QtGui.QMainWindow()
-         ui = Ui_MainWindow()
-         ui.setupUi(MainWindow)
+         MainWindow = KPS_MainWindow()
          MainWindow.show()
          sys.exit(app.exec_())
