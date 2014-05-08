@@ -1,8 +1,0 @@
-<!ELEMENT customer_price_update (price)*>
-<!ELEMENT price (to, from, priority, weightcost, volumecost)>
-<!ATTLIST price Price_ID ID #REQUIRED>
-<!ELEMENT to (#PCDATA)>
-<!ELEMENT from (#PCDATA)>
-<!ELEMENT priority (#PCDATA)>
-<!ELEMENT weightcost (#PCDATA)>
-<!ELEMENT volumecost (#PCDATA)>
