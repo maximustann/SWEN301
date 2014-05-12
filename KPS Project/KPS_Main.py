@@ -10,10 +10,11 @@ from ui import Ui_KPS_Main as ui_main;
 
 class KPS_MainWindow(QtGui.QMainWindow):
     def __init__(self):
+        '''
         user = self.login()
         if user == None:
             sys.exit(-1)
-
+        '''
         super(KPS_MainWindow, self).__init__()
         self.ui = ui_main.Ui_MainWindow()
         self.ui.setupUi(self)
