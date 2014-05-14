@@ -2,8 +2,8 @@
 
 from PyQt4 import QtGui, QtCore
 import KPS_Hub as hub;
-import KPS_Routes as routes;
-import KPS_Login as login;
+import KPS_TransportCostUpdate as transportCostUpdate;
+import KPS_login as login;
 from ui import Ui_KPS_Main as ui_main;
 
 
@@ -36,7 +36,7 @@ class KPS_MainWindow(QtGui.QMainWindow):
         result = Dialog.exec_()
 
     def clicked_bt_Routes(self):
-        Dialog = routes.Routes_Dialog()
+        Dialog = transportCostUpdate.TransportCostUpdate_Dialog()
         Dialog.show()
         result = Dialog.exec_()
 
