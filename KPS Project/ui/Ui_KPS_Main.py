@@ -1,5 +1,7 @@
 
 from PyQt4 import QtCore, QtGui;
+from PyQt4.QtCore import *;
+from PyQt4.QtGui import *;
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
 except AttributeError:
@@ -14,12 +16,16 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtGui.QMainWindow):
+    def __init__( self, parent ):
+        self.parent = parent
+
     def setupUi(self, MainWindow):
 
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(725, 511)
+        MainWindow.resize(1024, 600)
         palette = QtGui.QPalette()
+        toolBarPalette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
@@ -42,25 +48,26 @@ class Ui_MainWindow(object):
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.treeView = QtGui.QTreeView(self.centralwidget)
-        self.treeView.setGeometry(QtCore.QRect(20, 100, 661, 341))
+        self.treeView.setGeometry(QtCore.QRect(20, 150, 661, 341))
         self.treeView.setObjectName(_fromUtf8("treeView"))
+        self.treeView.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.bt_hubs = QtGui.QPushButton(self.centralwidget)
-        self.bt_hubs.setGeometry(QtCore.QRect(380, 10, 75, 23))
+        self.bt_hubs.setGeometry(QtCore.QRect(380, 60, 75, 23))
         self.bt_hubs.setObjectName(_fromUtf8("bt_hubs"))
         self.bt_Routes = QtGui.QPushButton(self.centralwidget)
-        self.bt_Routes.setGeometry(QtCore.QRect(380, 40, 75, 23))
+        self.bt_Routes.setGeometry(QtCore.QRect(380, 90, 75, 23))
         self.bt_Routes.setObjectName(_fromUtf8("bt_Routes"))
         self.bt_MailItems = QtGui.QPushButton(self.centralwidget)
-        self.bt_MailItems.setGeometry(QtCore.QRect(470, 10, 75, 23))
+        self.bt_MailItems.setGeometry(QtCore.QRect(470, 60, 75, 23))
         self.bt_MailItems.setObjectName(_fromUtf8("bt_MailItems"))
         self.bt_Companys = QtGui.QPushButton(self.centralwidget)
-        self.bt_Companys.setGeometry(QtCore.QRect(470, 40, 75, 23))
+        self.bt_Companys.setGeometry(QtCore.QRect(470, 90, 75, 23))
         self.bt_Companys.setObjectName(_fromUtf8("bt_Companys"))
         self.bt_Reports = QtGui.QPushButton(self.centralwidget)
-        self.bt_Reports.setGeometry(QtCore.QRect(560, 10, 75, 23))
+        self.bt_Reports.setGeometry(QtCore.QRect(560, 60, 75, 23))
         self.bt_Reports.setObjectName(_fromUtf8("bt_Reports"))
         self.label = QtGui.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(10, 0, 321, 81))
+        self.label.setGeometry(QtCore.QRect(10, 50, 321, 81))
         self.label.setText(_fromUtf8(""))
         self.label.setPixmap(QtGui.QPixmap(_fromUtf8("Images/logo_small.png")))
         self.label.setObjectName(_fromUtf8("label"))
@@ -90,8 +97,36 @@ class Ui_MainWindow(object):
         self.menuAdd_Hub.addAction(self.actionAdd_Company)
         self.menubar.addAction(self.menuHome.menuAction())
         self.menubar.addAction(self.menuAdd_Hub.menuAction())
+        
+        self.routeAction = QtGui.QAction(QtGui.QIcon('Images/route.png'), 'Exit', MainWindow)
+        self.routeAction.setShortcut('Ctrl+Q')
+        self.routeAction.setIconText('Add Route')
+       
+        self.exitAction = QtGui.QAction(QtGui.QIcon('Images/exit.png'), 'Exit', MainWindow)
+        self.exitAction.setShortcut('Ctrl+Q')
+        self.exitAction.setIconText('Exit')
+        #self.exitAction.triggered.connect(self.parent.close)
+        
+        self.toolbar = QtGui.QToolBar(self.centralwidget)
+        self.toolbar.addAction(self.exitAction)
+        self.toolbar.addAction(self.routeAction)
+        
+        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        
+        toolBarPalette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+       
+        self.toolbar.setAutoFillBackground(1)
+        self.toolbar.setPalette(toolBarPalette)
+        self.toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
+        
+        self.toolbar.setGeometry(0,0,2000,50)
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+    
+       # fileMenu = self.menubar.addMenu('Exit1')
+       # fileMenu.addAction(exitAction)     
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
@@ -106,5 +141,5 @@ class Ui_MainWindow(object):
         self.actionAdd_Route.setText(_translate("MainWindow", "Routes", None))
         self.actionAdd_Mail_Item.setText(_translate("MainWindow", "Mail Items", None))
         self.actionAdd_Company.setText(_translate("MainWindow", "Companys", None))
-
+        
 
