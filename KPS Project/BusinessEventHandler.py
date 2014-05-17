@@ -134,6 +134,6 @@ def insertTransportCost(cUD): # Cost Update Data
     #c.execute('select * from BusinessEvents')
     #print c.fetchall()
     c.execute('select * from TransportRoutes')
-    print c.fetchall()
+    #print c.fetchall()
     conn.close()
     return errorMessages  

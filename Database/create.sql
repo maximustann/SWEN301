@@ -59,3 +59,44 @@ CREATE TABLE Company(
 	ID INTEGER PRIMARY KEY,
 	Name TEXT NOT NULL
 );
+
+CREATE TABLE DaysOfWeek(
+	ID INTEGER PRIMARY KEY,
+	Day TEXT NOT NULL
+);
+
+CREATE TABLE TransportTypes(
+	ID INTEGER PRIMARY KEY,
+	Type TEXT NOT NULL
+);
+
+INSERT INTO EventTypes (Event) VALUES
+('TransportCostUpdate');
+INSERT INTO EventTypes (Event) VALUES
+('CustomerPriceUpdate');
+INSERT INTO EventTypes (Event) VALUES
+('TransportDiscontinued');
+INSERT INTO EventTypes (Event) VALUES
+('MailDelivery');
+	
+INSERT INTO DaysOfWeek(Day) VALUES
+('Sunday');
+INSERT INTO DaysOfWeek(Day) VALUES
+('Monday');
+INSERT INTO DaysOfWeek(Day) VALUES
+('Tuesday');
+INSERT INTO DaysOfWeek(Day) VALUES
+('Wednesday');
+INSERT INTO DaysOfWeek(Day) VALUES
+('Thursday');
+INSERT INTO DaysOfWeek(Day) VALUES
+('Friday');
+INSERT INTO DaysOfWeek(Day) VALUES
+('Saturday');
+
+INSERT INTO TransportTypes(Type) VALUES
+('Air');
+INSERT INTO TransportTypes(Type) VALUES
+('Land');
+INSERT INTO TransportTypes(Type) VALUES
+('Sea');
