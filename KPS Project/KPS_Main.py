@@ -5,7 +5,7 @@ from PyQt4.QtCore import *;
 from PyQt4.QtGui import *;
 import KPS_Hub as hub;
 import KPS_TransportCostUpdate as transportCostUpdate;
-import KPS_login as login;
+import KPS_Login as login;
 from ui import Ui_KPS_Main as ui_main;
 
 
