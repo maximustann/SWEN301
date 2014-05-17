@@ -84,17 +84,44 @@ class PriceUpdateData(object):
         self.Priority = Priority
                  
     def validate(self):
-        return []
+        errorMessages = []
+        
+        if not (isinstance(self.Origin, str)):
+            errorMessages.append("Origin not in string format");
+            
+        if not (isinstance(self.Destination, str)):
+            errorMessages.append("Destination not in string format");
+            
+        if not (isinstance(self.PricePerGram, float)):
+            errorMessages.append("PricePerGram not in float format");
+            
+        if not (isinstance(self.PricePerCC, float)):
+            errorMessages.append("PricePerCC not in float format");
+
+        if(self.Priority != 1 and self.Priority != 2):
+            errorMessages.append("Priority must be either 1 or 2");
+            
+        if (isinstance(self.PricePerGram, float) and self.PricePerGram < 0):
+            errorMessages.append("PricePerGram cannot be less than zero");  
+            
+        if (isinstance(self.PricePerCC, float) and self.PricePerCC < 0):
+            errorMessages.append("PricePerCC cannot be less than zero"); 
+            
+        if (self.Origin == self.Destination):
+            errorMessages.append("The Origin and Destination cannot be the same"); 
+                
+        return errorMessages
+        
     
 def insertTransportCost(cUD): # Cost Update Data
     errorMessages = []
-    print "inserting"
+    print ("inserting")
     errorMessages = errorMessages + cUD.validate()
     if len(errorMessages) > 0:
         return errorMessages
     conn = sqlite3.connect("../Database/Business.db")
     c = conn.cursor()
-    print cUD.DayOfWeek
+    print (cUD.DayOfWeek)
     print
     print
     c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, PricePerGram, PricePerCC, Company,
@@ -110,7 +137,7 @@ def insertTransportCost(cUD): # Cost Update Data
         AND Frequency = ?
         AND Duration = ?''',(cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
     if c.fetchone() != None:
-         print 'Holla'
+         print ('Holla')
          c.execute('''UPDATE TransportRoutes
             SET 
             PricePerGram = ? 
@@ -125,7 +152,7 @@ def insertTransportCost(cUD): # Cost Update Data
             (cUD.PricePerGram, cUD.PricePerCC,
              cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
     else:
-        print c.fetchone()
+        print (c.fetchone())
         c.execute('''INSERT INTO TransportRoutes (Origin, Destination, PricePerGram, PricePerCC, Company, DeliverDay, TransportType, Duration, Frequency)
             VALUES (?,?,?,?,?,?,?,?,?)
             ''',
