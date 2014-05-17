@@ -26,8 +26,9 @@ CREATE TABLE TransportRoutes(
 	DeliverDay INT,
 	PricePerGram REAL,
 	PricePerCC REAL,
-	Frequency REAL
-	Duration REAL);
+	Frequency REAL,
+	Duration REAL
+);
 CREATE TABLE CustomerRoutes(
 	ID INTEGER PRIMARY KEY,
 	Origin INT REFERENCES Cities(ID),
@@ -35,7 +36,7 @@ CREATE TABLE CustomerRoutes(
 	Priority INT,
 	TransportType TEXT,
 	PricePerGram REAL,
-	PricePerCC REAL,
+	PricePerCC REAL
 );
 
 CREATE TABLE Mail(
@@ -47,7 +48,7 @@ CREATE TABLE Mail(
 	Priority INT,
 	Volume REAL,
 	Weight	REAL,
-	TimeOfEntry INTEGER,
+	TimeOfEntry INTEGER
 );
 
 CREATE TABLE Cities(
