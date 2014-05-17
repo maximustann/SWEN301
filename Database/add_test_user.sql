@@ -1,3 +1,4 @@
+INSERT INTO UserDetails(Username, Password, IsAdmin) VALUES ("a", "123456", 1);
 INSERT INTO UserDetails(Username, Password, IsAdmin) VALUES ("Peter", "234567", 1);
 INSERT INTO UserDetails(Username, Password, IsAdmin) VALUES ("Andrew", "987654", 0);
 INSERT INTO UserDetails(Username, Password, IsAdmin) VALUES ("Griffin", "808099", 0);
