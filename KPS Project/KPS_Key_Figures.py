@@ -7,35 +7,19 @@ from PyQt4.QtSql import *;
 from PyQt4 import QtGui, QtCore
 import KeyEventsCommandHandler as events_handler
 from ui import Ui_KPS_KeyFigures as ui_key_figures;
-import sqlite3 as lite
 
-class Database:
-    def __init__(self):
-        self.conn = None
-        self.cur = None
-        self.connect()
-        self.cur = self.conn.cursor()
-
-
-    def connect(self):
-        self.conn = lite.connect("../Database/Business.db")
-        '''
+class Database: # temporary
+    def __init__(self, parent = None):
         self.data = QSqlDatabase.addDatabase("QSQLITE")
         self.data.setDatabaseName("test.db")
         self.data.open()
-        '''
+
 class Key_Figures_Dialog(QtGui.QDialog):
     def __init__(self):
         super(Key_Figures_Dialog, self).__init__()
         self.ui = ui_key_figures.Ui_Dialog()
         self.ui.setupUi(self)
-
-        self.db = Database()
-        self.db.cur.execute("SELECT * FROM Company")
-        self.row = self.db.cur.fetchone()
-        print(self.row)
-
-        '''
+        
         self.db = Database()
         
         self.ui.label_4.setText(self.totalRevenue()) # label 4 shows total revenue
@@ -45,7 +29,7 @@ class Key_Figures_Dialog(QtGui.QDialog):
         self.ui.tableView.setModel(self.amountOfMail()) # this table shows amount of mail
         self.ui.tableView_2.setModel(self.criticalRoutes()) # critical routes
         self.ui.tableView_3.setModel(self.averageTime()) # average delivery time
-        '''
+        
     def totalRevenue(self):
         return events_handler.getTotalRevenue()
     
