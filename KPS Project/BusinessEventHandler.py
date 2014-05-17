@@ -25,11 +25,22 @@ class TransportCostData(object):
         self.DayOfWeek = DayOfWeek
         self.Frequency = Frequency
         self.Duration = Duration
-        
                  
     def validate(self):
         return []
+        
+class PriceUpdateData(object):
+    """ A class that just holds the customer price data"""
     
+    def __init__(self,Origin,Destination,PricePerGram,PricePerCC,Priority):
+        self.Origin = Origin
+        self.Destination = Destination
+        self.PricePerGram = PricePerGram
+        self.PricePerCC = PricePerCC
+        self.Priority = Priority
+                 
+    def validate(self):
+        return []
     
 def insertTransportCost(cUD): # Cost Update Data
     errorMessages = []
@@ -37,37 +48,45 @@ def insertTransportCost(cUD): # Cost Update Data
     errorMessages = errorMessages + cUD.validate()
     if len(errorMessages) > 0:
         return errorMessages
-    conn = sqlite3.connect("Business.db")
+    conn = sqlite3.connect("../Database/Business.db")
     c = conn.cursor()
-    c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, PricePerGram, PricePerCC, Firm,
+    c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, PricePerGram, PricePerCC, Company,
     TransportType, DayOfWeek, Frequency, Duration) VALUES (?,?,?,?,?,?,?,?,?,?)''',
               (TRANSPORTCOSTUPDATE,cUD.Origin, cUD.Destination, cUD.PricePerGram, cUD.PricePerCC, cUD.Firm,
               cUD.TransportType, cUD.DayOfWeek, cUD.Frequency, cUD.Duration))
+    c.execute('''SELECT * FROM TransportRoutes''')    
+    print c.fetchall()
+    c.execute('''SELECT * FROM TransportRoutes 
+        WHERE Origin = ? 
+        AND Destination = ? 
+        AND Company = ? 
+        AND TransportType = ?
+        AND DeliverDay = ?
+        AND Frequency = ?
+        AND Duration = ?''',(cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
+    if c.fetchone() != None:
+                     c.execute('''UPDATE TransportRoutes
+                        SET 
+                        PricePerGram = ? 
+                        AND PricePerCC = ?
+                        WHERE Origin=? 
+                        AND Destination=? 
+                        AND Company=? 
+                        AND TransportType=?
+                        AND DeliverDay=?
+                        AND Frequency=?
+                        AND Duration=?''',
+                        (cUD.PricePerGram, cUD.PricePerCC,
+                         cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
+    else:
+        c.execute('''INSERT INTO TransportRoutes (Origin, Destination, PricePerGram, PricePerCC, Company, TransportType, Duration, Frequency)
+            VALUES (?,?,?,?,?,?,?,?)
+            ''',
+            (cUD.Origin, cUD.Destination, cUD.PricePerGram, cUD.PricePerCC, cUD.Firm, cUD.TransportType, cUD.Duration, cUD.Frequency))
     conn.commit()
     c.execute('select * from BusinessEvents')
     print c.fetchall()
+    c.execute('select * from TransportRoutes')
+    print c.fetchall()
     conn.close()
-    return errorMessages
-    
-def createBusinessEventTable():
-    conn = sqlite3.connect("Business.db")
-    c = conn.cursor()
-    c.execute('DROP TABLE BusinessEvents')
-    c.execute('''CREATE TABLE BusinessEvents (
-    ID INTEGER PRIMARY KEY NOT NULL,
-    EventTypeID INT,
-    Origin INT,
-    Destination INT,
-    Weight REAL,
-    Volume REAL,
-    TimeOfEntry DATETIME,
-    Priority INT,
-    PricePerGram REAL,
-    PricePerCC REAL,
-    Firm TEXT,
-    TransportType TEXT,
-    DayOfWeek INT,
-    Frequency REAL,
-    Duration REAL)''')
-    
-#createBusinessEventTable()    
+    return errorMessages  

@@ -27,8 +27,4 @@ def insertLocations():
     conn.commit()
     conn.close()
 
-#insertLocations()
-#locs = getLocations()
-
-#for loc in locs:
-#    print loc
+    

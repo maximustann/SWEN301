@@ -100,8 +100,8 @@ class Ui_TransportCostUpdate(object):
         self.tb_Firm.setObjectName(_fromUtf8("tb_Firm"))
 
         self.retranslateUi(TransportCostUpdate)
-        QtCore.QObject.connect(self.bt_Select_Route, QtCore.SIGNAL(_fromUtf8("clicked()")), self.selectRoute)
-        QtCore.QObject.connect(self.bt_AddEvent, QtCore.SIGNAL(_fromUtf8("clicked()")), self.addEvent)
+        #QtCore.QObject.connect(self.bt_Select_Route, QtCore.SIGNAL(_fromUtf8("clicked()")), self.selectRoute)
+       # QtCore.QObject.connect(self.bt_AddEvent, QtCore.SIGNAL(_fromUtf8("clicked()")), self.addEvent)
         QtCore.QMetaObject.connectSlotsByName(TransportCostUpdate)
         
         self.initialize()
