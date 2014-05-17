@@ -11,13 +11,21 @@ class login():
     def conn(self):
         try:
             self.con = lite.connect("../Database/Users.db")
-        except lite.Error, e:
+        except (lite.Error, e):
             print("Error %s:" % e.args[0])
             sys.exit(1)
     
     def login(self, username, password):
         self.cur = self.con.cursor()
         self.cur.execute("SELECT * FROM UserDetails")
+        
+        if username == "" and password == "":
+            return 0, 2
+        elif username == "":
+            return 0, 3
+        elif password == "":
+            return 0, 4
+        
         while True:
             row = self.cur.fetchone()
             if row == None:
@@ -40,4 +48,4 @@ if __name__ == "__main__":
     user = login()
     user.conn()
     x, y = user.login("a", "123456")
-    print x, y
+    print (x, y)

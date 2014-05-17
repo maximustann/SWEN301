@@ -22,12 +22,20 @@ class Login_Dialog(QtGui.QDialog):
             self.ui.label_4.setText("")
             super(Login_Dialog, self).accept()
         elif result == 0 and self.actor_reason == 0:
-            self.ui.label_4.setText("wrong password")
-        else:
-            self.ui.label_4.setText("No user information")
+            self.ui.label_4.setText("Incorrect password")
+        elif result == 0 and self.actor_reason == 1:
+            self.ui.label_4.setText("Invalid username")
+        elif result == 0 and self.actor_reason == 2:
+            self.ui.label_4.setText("Username and password fields are empty")
+        elif result == 0 and self.actor_reason == 3:
+            self.ui.label_4.setText("Username field empty")
+        elif result == 0 and self.actor_reason == 4:
+            self.ui.label_4.setText("Password field empty")
+
         self.ui.label_4.setStyleSheet("color: red")
-	def get_value(self):
-		return self.actor_reason
+	
+    def get_value(self):
+        return self.actor_reason
     def get_value(self):
         return self.actor_reason
 
