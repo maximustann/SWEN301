@@ -27,7 +27,51 @@ class TransportCostData(object):
         self.Duration = Duration
                  
     def validate(self):
-        return []
+        errorMessages = []
+        
+        if not (isinstance(self.Origin, str)):
+            errorMessages.append("Origin not in string format");
+            
+        if not (isinstance(self.Destination, str)):
+            errorMessages.append("Destination not in string format");
+            
+        if not (isinstance(self.PricePerGram, float)):
+            errorMessages.append("PricePerGram not in float format");
+            
+        if not (isinstance(self.PricePerCC, float)):
+            errorMessages.append("PricePerCC not in float format");
+            
+        if not (isinstance(self.Firm, str)):
+            errorMessages.append("Firm not in string format");
+            
+        if not (isinstance(self.TransportType, str)):
+            errorMessages.append("TransportType not in string format");
+            
+        if not (isinstance(self.DayOfWeek, str)):
+            errorMessages.append("DayOfWeek not in string format");
+            
+        if not (isinstance(self.Frequency, int)):
+            errorMessages.append("Frequency not in integer format");
+            
+        if not (isinstance(self.Duration, float)):
+            errorMessages.append("Duration not in float format");    
+            
+        if (isinstance(self.Frequency, int) and self.Frequency < 0):
+            errorMessages.append("Frequency cannot be less than zero");    
+            
+        if (isinstance(self.Duration, float) and self.Duration <= 0):
+            errorMessages.append("Duration cannot be less than or equal to zero");  
+            
+        if (isinstance(self.PricePerGram, float) and self.PricePerGram < 0):
+            errorMessages.append("PricePerGram cannot be less than zero");  
+            
+        if (isinstance(self.PricePerCC, float) and self.PricePerCC < 0):
+            errorMessages.append("PricePerCC cannot be less than zero"); 
+            
+        if (self.Origin == self.Destination):
+            errorMessages.append("The Origin and Destination cannot be the same"); 
+                
+        return errorMessages
         
 class PriceUpdateData(object):
     """ A class that just holds the customer price data"""
