@@ -50,12 +50,13 @@ def insertTransportCost(cUD): # Cost Update Data
         return errorMessages
     conn = sqlite3.connect("../Database/Business.db")
     c = conn.cursor()
+    print cUD.DayOfWeek
+    print
+    print
     c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, PricePerGram, PricePerCC, Company,
     TransportType, DayOfWeek, Frequency, Duration) VALUES (?,?,?,?,?,?,?,?,?,?)''',
               (TRANSPORTCOSTUPDATE,cUD.Origin, cUD.Destination, cUD.PricePerGram, cUD.PricePerCC, cUD.Firm,
               cUD.TransportType, cUD.DayOfWeek, cUD.Frequency, cUD.Duration))
-    c.execute('''SELECT * FROM TransportRoutes''')    
-    print c.fetchall()
     c.execute('''SELECT * FROM TransportRoutes 
         WHERE Origin = ? 
         AND Destination = ? 
@@ -65,27 +66,29 @@ def insertTransportCost(cUD): # Cost Update Data
         AND Frequency = ?
         AND Duration = ?''',(cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
     if c.fetchone() != None:
-                     c.execute('''UPDATE TransportRoutes
-                        SET 
-                        PricePerGram = ? 
-                        AND PricePerCC = ?
-                        WHERE Origin=? 
-                        AND Destination=? 
-                        AND Company=? 
-                        AND TransportType=?
-                        AND DeliverDay=?
-                        AND Frequency=?
-                        AND Duration=?''',
-                        (cUD.PricePerGram, cUD.PricePerCC,
-                         cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
+         print 'Holla'
+         c.execute('''UPDATE TransportRoutes
+            SET 
+            PricePerGram = ? 
+            AND PricePerCC = ?
+            WHERE Origin=? 
+            AND Destination=? 
+            AND Company=? 
+            AND TransportType=?
+            AND DeliverDay=?
+            AND Frequency=?
+            AND Duration=?''',
+            (cUD.PricePerGram, cUD.PricePerCC,
+             cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
     else:
-        c.execute('''INSERT INTO TransportRoutes (Origin, Destination, PricePerGram, PricePerCC, Company, TransportType, Duration, Frequency)
-            VALUES (?,?,?,?,?,?,?,?)
+        print c.fetchone()
+        c.execute('''INSERT INTO TransportRoutes (Origin, Destination, PricePerGram, PricePerCC, Company, DeliverDay, TransportType, Duration, Frequency)
+            VALUES (?,?,?,?,?,?,?,?,?)
             ''',
-            (cUD.Origin, cUD.Destination, cUD.PricePerGram, cUD.PricePerCC, cUD.Firm, cUD.TransportType, cUD.Duration, cUD.Frequency))
+            (cUD.Origin, cUD.Destination, cUD.PricePerGram, cUD.PricePerCC, cUD.Firm, cUD.DayOfWeek, cUD.TransportType, cUD.Duration, cUD.Frequency))
     conn.commit()
-    c.execute('select * from BusinessEvents')
-    print c.fetchall()
+    #c.execute('select * from BusinessEvents')
+    #print c.fetchall()
     c.execute('select * from TransportRoutes')
     print c.fetchall()
     conn.close()

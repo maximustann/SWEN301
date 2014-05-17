@@ -7,11 +7,11 @@ Created on Sat May 17 15:08:42 2014
 import sqlite3
 
 def getTotalRevenue():
-    conn = sqlite3.connect("Business.db")
+    conn = sqlite3.connect("../Database/Business.db")
     conn.text_factory = str
     c = conn.cursor()
     c.execute('SELECT sum(costClient) FROM mail')
-    total = c.fetch()
+    total = c.fetchone()
     conn.close()
     return total
     
@@ -56,6 +56,7 @@ def getAverageDeliveryTimes():
     return times
 
 
+print getTotalRevenue()
 
     
     
