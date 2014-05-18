@@ -6,6 +6,11 @@ Created on Wed May 07 16:15:46 2014
 """
 import sqlite3
 
+TRANSPORTCOSTUPDATE = 1
+CUSTOMERPRICEUPDATE = 2
+TRANSPORTDISCONTINUED = 3
+MAILDELIVERY = 4
+
 def getLocations():
     conn = sqlite3.connect("../Database/Business.db")
     conn.text_factory = str
@@ -31,7 +36,7 @@ def getPriorities():
     conn = sqlite3.connect("../Database/Business.db")
     conn.text_factory = str
     c = conn.cursor()
-    c.execute('SELECT name FROM cities')
+    c.execute('SELECT priority FROM priorities')
     locs = [r[0] for r in c.fetchall()]
     conn.close()
     return locs
@@ -70,7 +75,6 @@ def updateTransportRoute(cUD):
         AND Frequency = ?
         AND Duration = ?''',(cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
     if c.fetchone() != None:
-         print 'Holla'
          c.execute('''UPDATE TransportRoutes
             SET 
             PricePerGram = ? 
@@ -85,20 +89,54 @@ def updateTransportRoute(cUD):
             (cUD.PricePerGram, cUD.PricePerCC,
              cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
     else:
-        print c.fetchone()
         c.execute('''INSERT INTO TransportRoutes (Origin, Destination, PricePerGram, PricePerCC, Company, DeliverDay, TransportType, Duration, Frequency)
             VALUES (?,?,?,?,?,?,?,?,?)
             ''',
             (cUD.Origin, cUD.Destination, cUD.PricePerGram, cUD.PricePerCC, cUD.Firm, cUD.DayOfWeek, cUD.TransportType, cUD.Duration, cUD.Frequency))
     conn.commit()
-    #c.execute('select * from BusinessEvents')
-    #print c.fetchall()
-    c.execute('select * from TransportRoutes')
-    #print c.fetchall()
     conn.close()
     
 def updateCustomerRoute(pUD):
-     conn = sqlite3.connect("../Database/Business.db")
+    conn = sqlite3.connect("../Database/Business.db")
     c = conn.cursor()  
-
+    c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, Priority, PricePerGram, PricePerCC) 
+              VALUES (?,?,?,?,?,?)''',
+              (CUSTOMERPRICEUPDATE,pUD.Origin, pUD.Destination, pUD.Priority, pUD.PricePerGram, pUD.PricePerCC))
+    c.execute('''SELECT * FROM CustomerRoutes 
+        WHERE Origin = ? 
+        AND Destination = ? 
+        AND Priority = ?''',(pUD.Origin, pUD.Destination, pUD.Priority))
+    if c.fetchone() != None:
+         c.execute('''UPDATE CustomerRoutes
+            SET 
+            PricePerGram = ?, 
+            PricePerCC = ?
+            WHERE Origin=? 
+            AND Destination=? 
+            AND Priority=?''',
+            (pUD.PricePerGram, pUD.PricePerCC,pUD.Origin, pUD.Destination, pUD.Priority))
+    else:
+        c.execute('''INSERT INTO CustomerRoutes (Origin, Destination, PricePerGram, PricePerCC, Priority)
+            VALUES (?,?,?,?,?)
+            ''',
+            (pUD.Origin, pUD.Destination, pUD.PricePerGram, pUD.PricePerCC, pUD.Priority)) 
+    conn.commit()
+    c.execute('''SELECT * FROM CustomerRoutes''')
+    print c.fetchall()
     conn.close()
+
+def getCustomerRoutes():
+    conn = sqlite3.connect("../Database/Business.db")
+    c = conn.cursor()  
+    conn.text_factory = str
+    queryString = '''
+        SELECT origin.Name, destination.name, Priorities.Priority FROM CustomerRoutes AS CR 
+        JOIN Priorities ON CR.priority = Priorities.id
+        JOIN Cities AS origin ON CR.Origin = origin.id
+        JOIN Cities AS destination ON CR.Destination = destination.id'''
+    c.execute(queryString)
+    routes = c.fetchall()
+    conn.close()
+    return routes
+
+#getCustomerRoutes(dict(Origin=1))    

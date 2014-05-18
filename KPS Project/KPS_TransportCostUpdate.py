@@ -25,16 +25,16 @@ class TransportCostUpdate_Dialog(QtGui.QDialog):
         
 
     def clicked_bt_Add_Event(self):
-        costUpdate = EH.TransportCostData(
+        costUpdate = dict(
         Origin = int(self.ui.cb_Origin.currentIndex() + 1),
         Destination = int(self.ui.cb_Destination.currentIndex() + 1),
-        Firm = str(self.ui.tb_Firm.text()),
+        Firm = self.ui.tb_Firm.text(),
         TransportType = int(self.ui.cb_TransportType.currentIndex() + 1),
-        PricePerGram = float(self.ui.tb_PriceG.text()),
-        PricePerCC = float(self.ui.tb_PriceCC.text()),
+        PricePerGram = self.ui.tb_PriceG.text(),
+        PricePerCC = self.ui.tb_PriceCC.text(),
         DayOfWeek = int(self.ui.cb_DayOfWeek.currentIndex() + 1),
-        Frequency = int(self.ui.tb_Frequency.text()),
-        Duration = int(self.ui.tb_Duration.text()))
+        Frequency = self.ui.tb_Frequency.text(),
+        Duration = self.ui.tb_Duration.text())
         if len(EH.insertTransportCost(costUpdate))==0:
             return
     
