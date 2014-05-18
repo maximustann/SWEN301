@@ -2,29 +2,34 @@
 @author: Nick
 '''
 import unittest
-import BusinessEventHandler
+from Validation import Validation
 
 class TestCustomerPriceUpdate(unittest.TestCase):
 
     # Successful transport cost update
     def testUpdateCustomerPrice001(self):
-        cUD = BusinessEventHandler.PriceUpdateData("Japan","France", 1.20, 2.50,2)
-        errorMessages = cUD.validate()
-        assert(len(errorMessages) == 0),errorMessages       
-        
-    # Invalid data format
-    def testUpdateCustomerPrice002(self):
-        invalidData = [BusinessEventHandler.PriceUpdateData("Japan","Japan", 1.20, 2.50,2),
-                       BusinessEventHandler.PriceUpdateData(1.95,"France", 1.20, 2.50,2),
-                       BusinessEventHandler.PriceUpdateData("Japan", 6, 1.20, 2.50,2),
-                       BusinessEventHandler.PriceUpdateData("Italy","France", 'a', 2.50,2),
-                       BusinessEventHandler.PriceUpdateData("Japan","USA", 1.20, "abc",2),
-                       BusinessEventHandler.PriceUpdateData("Canada","France", 1.20, 2.50,'a'),
-                       BusinessEventHandler.PriceUpdateData("Canada","France", 1.20, 2.50, 0)]
+        event = {"Origin": 1,"Destination": 2, "Priority": 2,"PricePerGram": 5,"PricePerCC": 4, "Firm": "Nick McNeil Airways",
+                 "TransportType": "Air","DayOfWeek": 6, "Frequency": 54,"Duration": 3}
+        errorMessages = Validation.validate(event)
+        assert(len(errorMessages) == 0),errorMessages          
 
-        for data in invalidData:
-            errorMessages = data.validate()
-            assert(len(errorMessages) != 0), errorMessages   
+    # Invalid format
+    def testUpdateCustomerPrice002a(self):
+        event = {"Origin":"abc","Destination": "def", "Priority": "ghi","PricePerGram": "jkl","PricePerCC": "mno", "Firm": 7,
+                 "TransportType": 1,"DayOfWeek": "pqr", "Frequency": "stu","Duration": "vwx"}
+
+        errorMessages = Validation.validate(event)
+        assert(len(errorMessages) == 10), errorMessages   
+    
+    # Values out of range
+    def testUpdateCustomerPrice002b(self):
+        event = {"Origin": 3,"Destination": 4, "Priority": 8,"PricePerGram": 0,"PricePerCC": -4.60, "Firm": "Nick McNeil Airways",
+                 "TransportType": "Air","DayOfWeek": 8, "Frequency": 54,"Duration": -10}
+
+        errorMessages = Validation.validate(event)
+        assert(len(errorMessages) == 5), errorMessages  
+
+  
 
 def suite():
     # combine the tests into a test suite
