@@ -47,7 +47,7 @@ CREATE TABLE Mail(
 	Priority INT,
 	Volume REAL,
 	Weight	REAL,
-	TimeOfEntry INTEGER
+	TimeOfEntry INTEGER,
 	DeliverTime INTEGER
 );
 
