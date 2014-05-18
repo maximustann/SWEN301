@@ -52,6 +52,3 @@ class CustomerPriceUpdate_Dialog(QtGui.QDialog):
         for route in routes:
             item = QStandardItem('%s to %s , %s'%route )
             model.appendRow(item)
-    
-    def selectRoute(self):
-        print "Select Route"

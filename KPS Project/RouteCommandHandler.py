@@ -80,7 +80,6 @@ def updateTransportRoute(cUD):
         AND Frequency = ?
         AND Duration = ?  LIMIT 1''',(cUD['Origin'], cUD['Destination'], cUD['Company'], cUD['TransportType'],cUD['DayOfWeek'],int(cUD['Frequency']),int(cUD['Duration'])))
     if c.fetchone() != None:
-         print 'UPDATION'
          c.execute('''UPDATE TransportRoutes
             SET 
             PricePerGram = ? 
@@ -95,7 +94,6 @@ def updateTransportRoute(cUD):
             (float(cUD['PricePerGram']), float(cUD['PricePerCC']),
              cUD['Origin'], cUD['Destination'], cUD['Company'], cUD['TransportType'],cUD['DayOfWeek'],int(cUD['Frequency']),int(cUD['Duration'])))
     else:
-         print 'INSERTION'
          c.execute('''INSERT INTO TransportRoutes (Origin, Destination, PricePerGram, PricePerCC, Company, DeliverDay, TransportType, Duration, Frequency)
             VALUES (?,?,?,?,?,?,?,?,?)
             ''',
@@ -146,10 +144,8 @@ def getFilteredRoutes(table,fields,params):
         for key in params: 
             stringFields.append(key + "=" + params[key])
         queryString += " AND ".join(stringFields)
-    print queryString
     c.execute(queryString)
     routes = c.fetchall()
-    print routes
     conn.close()
     return routes
 
