@@ -16,16 +16,20 @@ MAILDELIVERY = 4
 def insertTransportCost(cUD): # Cost Update Data
     errorMessages = Validation.validate(cUD)
     if len(errorMessages) > 0:
-        print errorMessages
         return errorMessages
     RH.updateTransportRoute(cUD)
-    print errorMessages
     return errorMessages  
 
 def updateCustomerPrice(pUD):
     errorMessages = Validation.validate(pUD)
     if len(errorMessages) > 0:
-        print errorMessages
         return errorMessages
     RH.updateCustomerRoute(pUD)
     return errorMessages  
+
+def discontinueTransport(dtT):
+    errorMessages = Validation.validate(dtT)   
+    if len(errorMessages) > 0:
+        return errorMessages
+    RH.discontinueRoute(dtT)
+    return errorMessages    

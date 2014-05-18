@@ -148,6 +148,28 @@ def getFilteredRoutes(table,fields,params):
     routes = c.fetchall()
     conn.close()
     return routes
+    
+def discontinueRoute(tdD):
+    conn = sqlite3.connect("../Database/Business.db")
+    c = conn.cursor()
+    c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, Company,
+    TransportType) VALUES (?,?,?,?,?)''',
+              (TRANSPORTDISCONTINUED,tdD['Origin'], tdD['Destination'], tdD['Company'],
+              tdD['TransportType']))
+    c.execute('''DELETE FROM TransportRoutes
+        WHERE 
+            Origin = ? AND 
+            Destination = ? AND 
+            Company = ? AND 
+            DeliverDay = ? AND 
+            TransportType = ? AND 
+            Duration = ? AND 
+            Frequency = ?
+        ''',
+        (tdD['Origin'], tdD['Destination'], tdD['Company'], int(tdD['DeliverDay']), 
+         tdD['TransportType'], float(tdD['Duration']), float(tdD['Frequency'])))
+    conn.commit()
+    conn.close()
 
 
 #getCustomerRoutes(dict(Origin=1))    
