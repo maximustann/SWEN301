@@ -2,7 +2,6 @@
 @author: Nick
 '''
 import unittest
-import BusinessEventHandler
 
 class Validation(object):
 
