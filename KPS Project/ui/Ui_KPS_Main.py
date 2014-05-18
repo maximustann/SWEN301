@@ -132,6 +132,10 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.transportAction = QtGui.QAction(QtGui.QIcon('Images/transport.png'), 'Add Transport Route', MainWindow)
         self.transportAction.setShortcut('Ctrl+R')
         self.transportAction.setIconText('Add Transport Route')
+        
+        self.discontinueAction = QtGui.QAction(QtGui.QIcon('Images/discontinue.png'), 'Discontinue Transport Route', MainWindow)
+        self.discontinueAction.setShortcut('Ctrl+R')
+        self.discontinueAction.setIconText('Discontinue Route')
    
         #self.exitAction.triggered.connect(self.parent.close)
         
@@ -151,6 +155,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.toolbar.addAction(self.keyBusinessAction)      
         self.toolbar.addSeparator()
         self.toolbar.addAction(self.routesAction)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.discontinueAction)
         
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)

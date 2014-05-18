@@ -5,8 +5,9 @@ from PyQt4.QtCore import *;
 from PyQt4.QtGui import *;
 import KPS_Hub as hub;
 import KPS_TransportCostUpdate as transportCostUpdate;
-import KPS_Login as login;
+import KPS_login as login;
 import KPS_Key_Figures as KeyFigures;
+import KPS_TransportDiscontinued as TransportDiscontinued
 #import KPS_Mail_Item as MailItem;
 import KPS_CustomerPriceUpdate as Routes;
 import KPS_RevisitBusinessEvents as RevisitBusinessEvents;
@@ -34,6 +35,7 @@ class KPS_MainWindow(QtGui.QMainWindow):
         self.ui.addMailAction.triggered.connect(self.clicked_bt_MailItem)
         self.ui.revisitAction.triggered.connect(self.clicked_bt_Revisit)      
         self.ui.transportAction.triggered.connect(self.clicked_bt_Transportcost)
+        self.ui.discontinueAction.triggered.connect(self.clicked_bt_Discontinue)
         
         model = QStandardItemModel()
         model.setHorizontalHeaderLabels(['Hub', 'Destination','Void'])
@@ -91,6 +93,11 @@ class KPS_MainWindow(QtGui.QMainWindow):
             return Dialog.getValue()
     def clicked_bt_Routes(self):
         Dialog = Routes.CustomerPriceUpdate_Dialog()
+        Dialog.show()
+        result = Dialog.exec_()
+        
+    def clicked_bt_Discontinue(self):
+        Dialog = TransportDiscontinued.TransportDiscontinued_Dialog()
         Dialog.show()
         result = Dialog.exec_()
 
