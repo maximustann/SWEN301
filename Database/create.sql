@@ -112,3 +112,13 @@ INSERT INTO Priorities(Priority) VALUES
 INSERT INTO Priorities(Priority) VALUES
 ('Air');
 
+CREATE VIEW CustomerDisplayRoutes AS 
+  SELECT origin.Name AS Origin, 
+         dest.Name AS Destination, 
+         prior.Priority AS Priority,
+         PricePerGram, PricePerCC
+  FROM CustomerRoutes AS CR
+  JOIN Cities AS origin ON CR.Origin = origin.ID
+  JOIN Cities AS dest ON CR.Destination = dest.ID
+  JOIN Priorities AS prior ON CR.Priority = prior.ID;
+

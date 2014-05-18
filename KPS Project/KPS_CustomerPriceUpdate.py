@@ -18,15 +18,15 @@ class CustomerPriceUpdate_Dialog(QtGui.QDialog):
         self.ui.cb_Destination.addItems(RH.getLocations())
         self.ui.cb_Priority.addItems(RH.getPriorities())
         self.updateDisplayedRoutes()
-        
+        self.ui.cb_Origin.currentIndexChanged.connect(self.updateDisplayedRoutes)       
 
     def clicked_bt_Add_Event(self):
         pUD = dict(
             Origin = int(self.ui.cb_Origin.currentIndex() + 1),
             Destination = int(self.ui.cb_Destination.currentIndex() + 1),
-            PricePerGram = self.ui.tb_PriceG.text(),
-            PricePerCC = self.ui.tb_PriceCC.text(),
-            Priority = int(self.ui.cb_Priority.currentIndex()+1)
+            Priority = int(self.ui.cb_Priority.currentIndex()+1),
+            PricePerGram = float(self.ui.tb_PriceG.text()),
+            PricePerCC = float(self.ui.tb_PriceCC.text())
             )
         if len(EH.updateCustomerPrice(pUD))==0:
             return
@@ -34,7 +34,12 @@ class CustomerPriceUpdate_Dialog(QtGui.QDialog):
     def updateDisplayedRoutes(self):
         model = QStandardItemModel()
         self.ui.lv_availableRoutes.setModel(model)
-        routes = RH.getCustomerRoutes()
+        params = dict(
+                    Origin="'"+str(self.ui.cb_Origin.currentText())+"'",
+                    Destination = "'"+str(self.ui.cb_Destination.currentText())+"'",
+                    Priority = "'"+str(self.ui.cb_Priority.currentText())+"'")
+        fields = ['Origin','Destination','Priority']
+        routes = RH.getFilteredCustomerDisplayRoutes(fields,params)
         for route in routes:
             item = QStandardItem('%s to %s , %s'%route )
             model.appendRow(item)

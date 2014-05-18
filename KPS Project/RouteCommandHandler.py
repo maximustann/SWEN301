@@ -101,11 +101,11 @@ def updateCustomerRoute(pUD):
     c = conn.cursor()  
     c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, Priority, PricePerGram, PricePerCC) 
               VALUES (?,?,?,?,?,?)''',
-              (CUSTOMERPRICEUPDATE,pUD.Origin, pUD.Destination, pUD.Priority, pUD.PricePerGram, pUD.PricePerCC))
+              (CUSTOMERPRICEUPDATE,pUD['Origin'], pUD['Destination'], pUD['Priority'], pUD['PricePerGram'], pUD['PricePerCC']))
     c.execute('''SELECT * FROM CustomerRoutes 
         WHERE Origin = ? 
         AND Destination = ? 
-        AND Priority = ?''',(pUD.Origin, pUD.Destination, pUD.Priority))
+        AND Priority = ?''',(pUD['Origin'], pUD['Destination'], pUD['Priority']))
     if c.fetchone() != None:
          c.execute('''UPDATE CustomerRoutes
             SET 
@@ -114,12 +114,12 @@ def updateCustomerRoute(pUD):
             WHERE Origin=? 
             AND Destination=? 
             AND Priority=?''',
-            (pUD.PricePerGram, pUD.PricePerCC,pUD.Origin, pUD.Destination, pUD.Priority))
+            (pUD['PricePerGram'], pUD['PricePerCC'],pUD['Origin'], pUD['Destination'], pUD['Priority']))
     else:
         c.execute('''INSERT INTO CustomerRoutes (Origin, Destination, PricePerGram, PricePerCC, Priority)
             VALUES (?,?,?,?,?)
             ''',
-            (pUD.Origin, pUD.Destination, pUD.PricePerGram, pUD.PricePerCC, pUD.Priority)) 
+            (pUD['Origin'], pUD['Destination'], pUD['PricePerGram'], pUD['PricePerCC'], pUD['Priority'])) 
     conn.commit()
     c.execute('''SELECT * FROM CustomerRoutes''')
     print c.fetchall()
@@ -138,5 +138,62 @@ def getCustomerRoutes():
     routes = c.fetchall()
     conn.close()
     return routes
+    
+def getFilteredCustomerRoutes(fields,params):
+    conn = sqlite3.connect("../Database/Business.db")
+    c = conn.cursor()  
+    conn.text_factory = str
+    queryString = '''SELECT '''
+    if fields == None:
+        queryString += '*'
+    else:
+        queryString += ",".join(fields)
+    queryString+=' FROM CustomerRoutes '
+    if params != None:
+        queryString+='WHERE '
+        stringFields = []
+        for key in params: 
+            stringFields.append(key + "=" + params[key])
+        queryString += " AND ".join(stringFields)
+    c.execute(queryString)
+    routes = c.fetchall()
+    conn.close()
+    return routes
+    
+def getFilteredCustomerDisplayRoutes(fields,params):
+    conn = sqlite3.connect("../Database/Business.db")
+    c = conn.cursor()  
+    conn.text_factory = str
+    queryString = '''SELECT '''
+    if fields == None:
+        queryString += '*'
+    else:
+        queryString += ",".join(fields)
+    queryString+=' FROM CustomerDisplayRoutes '
+    if params != None:
+        queryString+='WHERE '
+        stringFields = []
+        for key in params: 
+            stringFields.append(key + "=" + params[key])
+        queryString += " AND ".join(stringFields)
+    print queryString
+    c.execute(queryString)
+    routes = c.fetchall()
+    conn.close()
+    print routes
+    print queryString
+    return routes
+
+   #     SELECT origin.Name, destination.name, Priorities.Priority FROM CustomerRoutes AS CR 
+    #    JOIN Priorities ON CR.priority = Priorities.id
+     #   JOIN Cities AS origin ON CR.Origin = origin.id
+      #  JOIN Cities AS destination ON CR.Destination = destination.id'''
+    #c.execute(queryString)
+    #routes = c.fetchall()
+    #conn.close()
+    #return routes
+
+#getFilteredCustomerDisplayRoutes(['Origin','Destination'],dict(Origin='1',Destination='1'))
+
 
 #getCustomerRoutes(dict(Origin=1))    
