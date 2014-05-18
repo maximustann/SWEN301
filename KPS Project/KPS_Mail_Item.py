@@ -163,12 +163,22 @@ class Mail_Item_Dialog(QtGui.QDialog):
         for meta in raw_data:
             graph.make_link(self.G, meta.keys()[0], meta.values()[0].keys()[0], meta.values()[0].values()[0])
 
-        path = dij.shortestPath(self.G, self.mail.origin, self.mail.destination)
-        for i in range(len(path) - 1):
-            charge += self.G[path[i]][path[i + 1]]
+        self.path = dij.shortestPath(self.G, self.mail.origin, self.mail.destination)
+        for i in range(len(self.path) - 1):
+            charge += self.G[self.path[i]][self.path[i + 1]]
 
-        
-        print path, charge
+        self.mail.costKPS = charge
+        print self.cal_duration()
+
+    def cal_duration(self):
+        duration = 0
+        for i in range(len(self.path) - 1):
+            for j in range(len(self.new_transport)):
+                if (self.new_transport[j][0] == self.path[i]) and (self.new_transport[j][1] == self.path[i + 1]):
+                    print self.new_transport[j][7]
+                    duration += self.new_transport[j][7]
+        return duration
+
     def trans_filter(self):
         self.new_transport = []
         temp = None
