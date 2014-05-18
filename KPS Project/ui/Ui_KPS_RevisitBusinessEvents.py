@@ -165,14 +165,10 @@ class Ui_Form(object):
         query = QtSql.QSqlQuery()
 
         query.exec_("Select * from BusinessEvents a, EventTypes b where b.Event = '" + text + "' and b.EventTypeID = a.EventTypeID order by ID DESC LIMIT " + str(self.eventSkip) + ",1")
-        
-        if query.size() == -1:
-            self.label_3.setText(_translate("Form", "No Records found", None))
-            self.inWork = True
-        else:
-            self.label_3.setText(_translate("Form", "", None))
-            self.inWork = False
+        recCount = 0;
+  
         while query.next():
+            recCount = recCount + 1
             if query.value(2) != '':
                 modelInputItem = QtGui.QStandardItem("Origin")
                 modelInputValue = QtGui.QStandardItem(str(query.value(2)))
@@ -227,7 +223,13 @@ class Ui_Form(object):
                 modelView.appendRow([modelInputItem,modelInputValue]) 
         #modelInputValue = QtGui.QStandardItem('Value')
         # modelView.appendRow([modelInputItem,modelInputValue])
-            
+        if recCount == 0:
+            self.label_3.setText(_translate("Form", "No Records found", None))
+            self.inWork = False
+        else:
+            self.label_3.setText(_translate("Form", "", None))
+            self.inWork = True
+               
         self.tb_EventViewer.setModel(modelView)
  
     def clicked_bt_Earlier(self):
