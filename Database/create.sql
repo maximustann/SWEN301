@@ -70,6 +70,12 @@ CREATE TABLE TransportTypes(
 	Type TEXT NOT NULL
 );
 
+CREATE TABLE Priorities(
+	ID INTEGER PRIMARY KEY,
+	Priority TEXT NOT NULL
+);
+
+
 INSERT INTO EventTypes (Event) VALUES
 ('Transport Cost Update');
 INSERT INTO EventTypes (Event) VALUES
@@ -100,3 +106,9 @@ INSERT INTO TransportTypes(Type) VALUES
 ('Land');
 INSERT INTO TransportTypes(Type) VALUES
 ('Sea');
+
+INSERT INTO Priorities(Priority) VALUES
+('Standard');
+INSERT INTO Priorities(Priority) VALUES
+('Air');
+

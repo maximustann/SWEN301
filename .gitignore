@@ -165,3 +165,5 @@ Database/DummyData.py
 UI Files/KPS_Main.ui
 UI Files/KPS_Main.ui
 KPS Project/KPS_Main.py
+KPS Project/KPS_Main.py
+Database/Business.db
