@@ -122,3 +122,14 @@ CREATE VIEW CustomerDisplayRoutes AS
   JOIN Cities AS dest ON CR.Destination = dest.ID
   JOIN Priorities AS prior ON CR.Priority = prior.ID;
 
+CREATE VIEW TransportDisplayRoutes AS
+SELECT origin.Name AS Origin, 
+         dest.Name AS Destination, 
+         company.Name AS Company,
+         TransportType, DeliverDay,
+         PricePerGram, PricePerCC,
+         Frequency, Duration
+  FROM TransportRoutes AS TR
+  JOIN Cities AS origin ON TR.Origin = origin.ID
+  JOIN Cities AS dest ON TR.Destination = dest.ID
+  JOIN Company AS company ON TR.Company = company.ID;

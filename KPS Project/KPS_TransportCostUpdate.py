@@ -28,8 +28,8 @@ class TransportCostUpdate_Dialog(QtGui.QDialog):
         costUpdate = dict(
         Origin = int(self.ui.cb_Origin.currentIndex() + 1),
         Destination = int(self.ui.cb_Destination.currentIndex() + 1),
-        Firm = self.ui.tb_Firm.text(),
-        TransportType = int(self.ui.cb_TransportType.currentIndex() + 1),
+        Firm = str(self.ui.tb_Firm.text()),
+        TransportType = str(self.ui.cb_TransportType.currentText()),
         PricePerGram = self.ui.tb_PriceG.text(),
         PricePerCC = self.ui.tb_PriceCC.text(),
         DayOfWeek = int(self.ui.cb_DayOfWeek.currentIndex() + 1),

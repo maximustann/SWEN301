@@ -13,6 +13,8 @@ MAILDELIVERY = 4
 
 CustomerDisplayRoutes = 'CustomerDisplayRoutes'
 CustomerRoutes = 'CustomerRoutes'
+TransportRoutes = 'TransportRoutes'
+TransportDisplayRoutes = 'TransportDisplayRoutes'
 
 def getLocations():
     conn = sqlite3.connect("../Database/Business.db")
@@ -39,7 +41,7 @@ def getPriorities():
     conn = sqlite3.connect("../Database/Business.db")
     conn.text_factory = str
     c = conn.cursor()
-    c.execute('SELECT priority FROM priorities')
+    c.execute('SELECT priority FROM Priorities')
     locs = [r[0] for r in c.fetchall()]
     conn.close()
     return locs
@@ -67,8 +69,8 @@ def updateTransportRoute(cUD):
     c = conn.cursor()
     c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, PricePerGram, PricePerCC, Company,
     TransportType, DayOfWeek, Frequency, Duration) VALUES (?,?,?,?,?,?,?,?,?,?)''',
-              (TRANSPORTCOSTUPDATE,cUD.Origin, cUD.Destination, cUD.PricePerGram, cUD.PricePerCC, cUD.Firm,
-              cUD.TransportType, cUD.DayOfWeek, cUD.Frequency, cUD.Duration))
+              (TRANSPORTCOSTUPDATE,cUD['Origin'], cUD['Destination'], float(cUD['PricePerGram']), float(cUD['PricePerCC']), cUD['Firm'],
+              cUD['TransportType'], cUD['DayOfWeek'], int(cUD['Frequency']), int(cUD['Duration'])))
     c.execute('''SELECT * FROM TransportRoutes 
         WHERE Origin = ? 
         AND Destination = ? 
@@ -76,7 +78,7 @@ def updateTransportRoute(cUD):
         AND TransportType = ?
         AND DeliverDay = ?
         AND Frequency = ?
-        AND Duration = ?''',(cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
+        AND Duration = ?  LIMIT 1''',(cUD['Origin'], cUD['Destination'], cUD['Firm'], cUD['TransportType'],cUD['DayOfWeek'],int(cUD['Frequency']),int(cUD['Duration'])))
     if c.fetchone() != None:
          c.execute('''UPDATE TransportRoutes
             SET 
@@ -88,14 +90,14 @@ def updateTransportRoute(cUD):
             AND TransportType=?
             AND DeliverDay=?
             AND Frequency=?
-            AND Duration=?''',
-            (cUD.PricePerGram, cUD.PricePerCC,
-             cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
+            AND Duration=? ''',
+            (float(cUD['PricePerGram'], float(cUD['PricePerCC']),
+             cUD.Origin, cUD['Destination'], cUD['Firm'], cUD['TransportType'],cUD['DayOfWeek'],int(cUD['Frequency']),int(cUD['Duration']))))
     else:
         c.execute('''INSERT INTO TransportRoutes (Origin, Destination, PricePerGram, PricePerCC, Company, DeliverDay, TransportType, Duration, Frequency)
             VALUES (?,?,?,?,?,?,?,?,?)
             ''',
-            (cUD.Origin, cUD.Destination, cUD.PricePerGram, cUD.PricePerCC, cUD.Firm, cUD.DayOfWeek, cUD.TransportType, cUD.Duration, cUD.Frequency))
+            (cUD['Origin'], cUD['Destination'], float(cUD['PricePerGram']), float(cUD['PricePerCC']), cUD['Firm'], cUD['DayOfWeek'], cUD['TransportType'], int(cUD['Duration']), int(cUD['Frequency'])))
     conn.commit()
     conn.close()
     
@@ -104,11 +106,11 @@ def updateCustomerRoute(pUD):
     c = conn.cursor()  
     c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, Priority, PricePerGram, PricePerCC) 
               VALUES (?,?,?,?,?,?)''',
-              (CUSTOMERPRICEUPDATE,pUD['Origin'], pUD['Destination'], pUD['Priority'], pUD['PricePerGram'], pUD['PricePerCC']))
+              (CUSTOMERPRICEUPDATE,pUD['Origin'], pUD['Destination'], pUD['Priority'], float(pUD['PricePerGram']), float(pUD['PricePerCC'])))
     c.execute('''SELECT * FROM CustomerRoutes 
         WHERE Origin = ? 
         AND Destination = ? 
-        AND Priority = ?''',(pUD['Origin'], pUD['Destination'], pUD['Priority']))
+        AND Priority = ? LIMIT 1''',(pUD['Origin'], pUD['Destination'], pUD['Priority']))
     if c.fetchone() != None:
          c.execute('''UPDATE CustomerRoutes
             SET 
@@ -117,18 +119,16 @@ def updateCustomerRoute(pUD):
             WHERE Origin=? 
             AND Destination=? 
             AND Priority=?''',
-            (pUD['PricePerGram'], pUD['PricePerCC'],pUD['Origin'], pUD['Destination'], pUD['Priority']))
+            (float(pUD['PricePerGram']), float(pUD['PricePerCC']),pUD['Origin'], pUD['Destination'], pUD['Priority']))
     else:
         c.execute('''INSERT INTO CustomerRoutes (Origin, Destination, PricePerGram, PricePerCC, Priority)
             VALUES (?,?,?,?,?)
             ''',
-            (pUD['Origin'], pUD['Destination'], pUD['PricePerGram'], pUD['PricePerCC'], pUD['Priority'])) 
+            (pUD['Origin'], pUD['Destination'], float(pUD['PricePerGram']), float(pUD['PricePerCC']), pUD['Priority'])) 
     conn.commit()
-    c.execute('''SELECT * FROM CustomerRoutes''')
-    print c.fetchall()
     conn.close()
     
-def getFilteredCustomerRoutes(table,fields,params):
+def getFilteredRoutes(table,fields,params):
     conn = sqlite3.connect("../Database/Business.db")
     c = conn.cursor()  
     conn.text_factory = str
@@ -145,14 +145,8 @@ def getFilteredCustomerRoutes(table,fields,params):
             stringFields.append(key + "=" + params[key])
         queryString += " AND ".join(stringFields)
     c.execute(queryString)
-    print queryString
     routes = c.fetchall()
     conn.close()
     return routes
-    
-insertLocations()
-getFilteredCustomerRoutes(CustomerDisplayRoutes,['Origin','Destination'],dict(Origin='1',Destination='1'))
-
-
 
 #getCustomerRoutes(dict(Origin=1))    

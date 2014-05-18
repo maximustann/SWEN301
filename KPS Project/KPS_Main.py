@@ -7,7 +7,7 @@ import KPS_Hub as hub;
 import KPS_TransportCostUpdate as transportCostUpdate;
 import KPS_Login as login;
 import KPS_Key_Figures as KeyFigures;
-import KPS_Mail_Item as MailItem;
+#import KPS_Mail_Item as MailItem;
 import KPS_CustomerPriceUpdate as Routes;
 import KPS_RevisitBusinessEvents as RevisitBusinessEvents;
 from ui import Ui_KPS_Main as ui_main;
