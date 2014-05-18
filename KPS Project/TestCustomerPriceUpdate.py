@@ -24,12 +24,18 @@ class TestCustomerPriceUpdate(unittest.TestCase):
     # Values out of range
     def testUpdateCustomerPrice002b(self):
         event = {"Origin": 3,"Destination": 4, "Priority": 8,"PricePerGram": 0,"PricePerCC": -4.60, "Firm": "Nick McNeil Airways",
-                 "TransportType": "Air","DayOfWeek": 8, "Frequency": 54,"Duration": -10}
+                 "TransportType": "Air","DayOfWeek": 8, "Frequency": 0,"Duration": -10}
+        
+        errorMessages = Validation.validate(event)
+        assert(len(errorMessages) == 6), errorMessages 
+        
+    # Origin cannot equal destination
+    def testUpdateCustomerPrice002c(self):
+        event = {"Origin": 5,"Destination": 5, "Priority": 2,"PricePerGram": 5,"PricePerCC": 4, "Firm": "Nick McNeil Airways",
+                 "TransportType": "Air","DayOfWeek": 6, "Frequency": 54,"Duration": 3}
 
         errorMessages = Validation.validate(event)
-        assert(len(errorMessages) == 5), errorMessages  
-
-  
+        assert(len(errorMessages) == 1), errorMessages  
 
 def suite():
     # combine the tests into a test suite

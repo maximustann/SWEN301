@@ -94,6 +94,8 @@ class Validation(object):
             # check correct format
             if not (Validation.valueToFloat(eventDict.get("Frequency"))):
                 errorMessages.append("Frequency not in real format");
+            elif not (eventDict.get("Frequency")>0):
+                errorMessages.append("Frequency must be greater than 0");
                
         if(eventDict.get("Duration") != None):
             # check correct format
