@@ -51,6 +51,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.treeView.setGeometry(QtCore.QRect(20, 150, 661, 341))
         self.treeView.setObjectName(_fromUtf8("treeView"))
         self.treeView.setSelectionBehavior(QAbstractItemView.SelectRows)
+        '''
         self.bt_hubs = QtGui.QPushButton(self.centralwidget)
         self.bt_hubs.setGeometry(QtCore.QRect(380, 60, 75, 23))
         self.bt_hubs.setObjectName(_fromUtf8("bt_hubs"))
@@ -66,6 +67,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.bt_Reports = QtGui.QPushButton(self.centralwidget)
         self.bt_Reports.setGeometry(QtCore.QRect(560, 60, 75, 23))
         self.bt_Reports.setObjectName(_fromUtf8("bt_Reports"))
+        '''
         self.label = QtGui.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(10, 50, 321, 81))
         self.label.setText(_fromUtf8(""))
@@ -98,18 +100,57 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.menubar.addAction(self.menuHome.menuAction())
         self.menubar.addAction(self.menuAdd_Hub.menuAction())
         
-        self.routeAction = QtGui.QAction(QtGui.QIcon('Images/route.png'), 'Exit', MainWindow)
-        self.routeAction.setShortcut('Ctrl+Q')
-        self.routeAction.setIconText('Add Route')
+        self.routeAction = QtGui.QAction(QtGui.QIcon('Images/route.png'), 'Add Customer Route', MainWindow)
+        
+        self.routeAction.setShortcut('Ctrl+R')
+        self.routeAction.setIconText('Add Customer Route')
+        
+        self.revisitAction = QtGui.QAction(QtGui.QIcon('Images/revisit.png'), 'History', MainWindow)
+        self.revisitAction.setShortcut('Ctrl+E')
+        self.revisitAction.setIconText('History')
        
         self.exitAction = QtGui.QAction(QtGui.QIcon('Images/exit.png'), 'Exit', MainWindow)
         self.exitAction.setShortcut('Ctrl+Q')
         self.exitAction.setIconText('Exit')
+        
+        self.keyBusinessAction = QtGui.QAction(QtGui.QIcon('Images/key_business.png'), 'Key Figures', MainWindow)
+        self.keyBusinessAction.setShortcut('Ctrl+B')
+        self.keyBusinessAction.setIconText('Key Figures')
+        
+        self.addHubAction = QtGui.QAction(QtGui.QIcon('Images/addhub.png'), 'Add Hub', MainWindow)
+        self.addHubAction.setShortcut('Ctrl+H')
+        self.addHubAction.setIconText('Add Hub')
+        
+        self.addMailAction = QtGui.QAction(QtGui.QIcon('Images/mailitem.png'), 'Mail Item', MainWindow)
+        self.addMailAction.setShortcut('Ctrl+M')
+        self.addMailAction.setIconText('Add Mail')
+        
+        self.routesAction = QtGui.QAction(QtGui.QIcon('Images/routes.png'), 'Routes', MainWindow)
+        self.routesAction.setShortcut('Ctrl+R')
+        self.routesAction.setIconText('View Routes')
+        
+        self.transportAction = QtGui.QAction(QtGui.QIcon('Images/transport.png'), 'Add Transport Route', MainWindow)
+        self.transportAction.setShortcut('Ctrl+R')
+        self.transportAction.setIconText('Add Transport Route')
+   
         #self.exitAction.triggered.connect(self.parent.close)
         
         self.toolbar = QtGui.QToolBar(self.centralwidget)
         self.toolbar.addAction(self.exitAction)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.addMailAction)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.addHubAction)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.transportAction)
+        self.toolbar.addSeparator()
         self.toolbar.addAction(self.routeAction)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.revisitAction)
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.keyBusinessAction)      
+        self.toolbar.addSeparator()
+        self.toolbar.addAction(self.routesAction)
         
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -129,12 +170,12 @@ class Ui_MainWindow(QtGui.QMainWindow):
        # fileMenu.addAction(exitAction)     
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
-        self.bt_hubs.setText(_translate("MainWindow", "Hubs", None))
-        self.bt_Routes.setText(_translate("MainWindow", "Routes", None))
-        self.bt_MailItems.setText(_translate("MainWindow", "Mail Items", None))
-        self.bt_Companys.setText(_translate("MainWindow", "Companies", None))
-        self.bt_Reports.setText(_translate("MainWindow", "Reports", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "KP Smart - SWEN301 (A Team)", None))
+        #self.bt_hubs.setText(_translate("MainWindow", "Hubs", None))
+        #self.bt_Routes.setText(_translate("MainWindow", "Routes", None))
+       # self.bt_MailItems.setText(_translate("MainWindow", "Mail Items", None))
+        #self.bt_Companys.setText(_translate("MainWindow", "Companies", None))
+       # self.bt_Reports.setText(_translate("MainWindow", "Reports", None))
         self.menuHome.setTitle(_translate("MainWindow", "Home", None))
         self.menuAdd_Hub.setTitle(_translate("MainWindow", "Actions", None))
         self.actionAdd_Hub.setText(_translate("MainWindow", "Hubs", None))
