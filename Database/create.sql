@@ -49,6 +49,7 @@ CREATE TABLE Mail(
 	Volume REAL,
 	Weight	REAL,
 	TimeOfEntry INTEGER
+	DeliverTime INTEGER
 );
 
 CREATE TABLE Cities(
