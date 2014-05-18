@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'KPS_TransportCostUpdate.ui'
 #
-# Created: Wed May  7 19:03:29 2014
+# Created: Sun May 18 21:04:05 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,18 +26,15 @@ except AttributeError:
 class Ui_TransportCostUpdate(object):
     def setupUi(self, TransportCostUpdate):
         TransportCostUpdate.setObjectName(_fromUtf8("TransportCostUpdate"))
-        TransportCostUpdate.resize(773, 343)
+        TransportCostUpdate.resize(773, 371)
         self.lv_availableRoutes = QtGui.QListView(TransportCostUpdate)
-        self.lv_availableRoutes.setGeometry(QtCore.QRect(20, 30, 256, 271))
+        self.lv_availableRoutes.setGeometry(QtCore.QRect(20, 30, 391, 321))
         self.lv_availableRoutes.setObjectName(_fromUtf8("lv_availableRoutes"))
         self.label = QtGui.QLabel(TransportCostUpdate)
         self.label.setGeometry(QtCore.QRect(20, 10, 91, 16))
         self.label.setObjectName(_fromUtf8("label"))
-        self.bt_Select_Route = QtGui.QPushButton(TransportCostUpdate)
-        self.bt_Select_Route.setGeometry(QtCore.QRect(20, 310, 91, 23))
-        self.bt_Select_Route.setObjectName(_fromUtf8("bt_Select_Route"))
         self.groupBox = QtGui.QGroupBox(TransportCostUpdate)
-        self.groupBox.setGeometry(QtCore.QRect(310, 10, 321, 321))
+        self.groupBox.setGeometry(QtCore.QRect(420, 10, 321, 351))
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.cb_Origin = QtGui.QComboBox(self.groupBox)
         self.cb_Origin.setGeometry(QtCore.QRect(180, 20, 131, 20))
@@ -73,7 +70,7 @@ class Ui_TransportCostUpdate(object):
         self.label_8.setGeometry(QtCore.QRect(30, 230, 111, 16))
         self.label_8.setObjectName(_fromUtf8("label_8"))
         self.bt_AddEvent = QtGui.QPushButton(self.groupBox)
-        self.bt_AddEvent.setGeometry(QtCore.QRect(180, 290, 75, 23))
+        self.bt_AddEvent.setGeometry(QtCore.QRect(180, 320, 75, 23))
         self.bt_AddEvent.setObjectName(_fromUtf8("bt_AddEvent"))
         self.tb_PriceG = QtGui.QLineEdit(self.groupBox)
         self.tb_PriceG.setGeometry(QtCore.QRect(180, 140, 133, 20))
@@ -93,23 +90,24 @@ class Ui_TransportCostUpdate(object):
         self.tb_Duration = QtGui.QLineEdit(self.groupBox)
         self.tb_Duration.setGeometry(QtCore.QRect(180, 260, 133, 20))
         self.tb_Duration.setObjectName(_fromUtf8("tb_Duration"))
-        self.tb_Firm = QtGui.QLineEdit(self.groupBox)
-        self.tb_Firm.setGeometry(QtCore.QRect(180, 80, 133, 20))
-        self.tb_Firm.setObjectName(_fromUtf8("tb_Firm"))
+        self.tb_Company = QtGui.QLineEdit(self.groupBox)
+        self.tb_Company.setGeometry(QtCore.QRect(180, 80, 133, 20))
+        self.tb_Company.setObjectName(_fromUtf8("tb_Company"))
+        self.errorLabel = QtGui.QLabel(self.groupBox)
+        self.errorLabel.setGeometry(QtCore.QRect(30, 290, 281, 20))
+        self.errorLabel.setText(_fromUtf8(""))
+        self.errorLabel.setObjectName(_fromUtf8("errorLabel"))
 
         self.retranslateUi(TransportCostUpdate)
-        #QtCore.QObject.connect(self.bt_Select_Route, QtCore.SIGNAL(_fromUtf8("clicked()")), self.selectRoute)
-       # QtCore.QObject.connect(self.bt_AddEvent, QtCore.SIGNAL(_fromUtf8("clicked()")), self.addEvent)
         QtCore.QMetaObject.connectSlotsByName(TransportCostUpdate)
-        
+
     def retranslateUi(self, TransportCostUpdate):
         TransportCostUpdate.setWindowTitle(_translate("TransportCostUpdate", "Routes", None))
         self.label.setText(_translate("TransportCostUpdate", "Current Routes", None))
-        self.bt_Select_Route.setText(_translate("TransportCostUpdate", "Select Route", None))
         self.groupBox.setTitle(_translate("TransportCostUpdate", "Route Details", None))
         self.label_2.setText(_translate("TransportCostUpdate", "Select Origin Hub", None))
         self.label_3.setText(_translate("TransportCostUpdate", "Select Destination Hub", None))
-        self.label_4.setText(_translate("TransportCostUpdate", "Firm", None))
+        self.label_4.setText(_translate("TransportCostUpdate", "Company", None))
         self.label_5.setText(_translate("TransportCostUpdate", "Transport Type", None))
         self.label_6.setText(_translate("TransportCostUpdate", "Price (g)", None))
         self.label_7.setText(_translate("TransportCostUpdate", "Duration (hours)", None))
@@ -117,7 +115,4 @@ class Ui_TransportCostUpdate(object):
         self.bt_AddEvent.setText(_translate("TransportCostUpdate", "Add Event", None))
         self.label_9.setText(_translate("TransportCostUpdate", "Price (cc)", None))
         self.label_10.setText(_translate("TransportCostUpdate", "Day of Week", None))
-    
-
-        
 

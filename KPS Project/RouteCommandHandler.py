@@ -69,7 +69,7 @@ def updateTransportRoute(cUD):
     c = conn.cursor()
     c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, PricePerGram, PricePerCC, Company,
     TransportType, DayOfWeek, Frequency, Duration) VALUES (?,?,?,?,?,?,?,?,?,?)''',
-              (TRANSPORTCOSTUPDATE,cUD['Origin'], cUD['Destination'], float(cUD['PricePerGram']), float(cUD['PricePerCC']), cUD['Firm'],
+              (TRANSPORTCOSTUPDATE,cUD['Origin'], cUD['Destination'], float(cUD['PricePerGram']), float(cUD['PricePerCC']), cUD['Company'],
               cUD['TransportType'], cUD['DayOfWeek'], int(cUD['Frequency']), int(cUD['Duration'])))
     c.execute('''SELECT * FROM TransportRoutes 
         WHERE Origin = ? 
@@ -78,8 +78,9 @@ def updateTransportRoute(cUD):
         AND TransportType = ?
         AND DeliverDay = ?
         AND Frequency = ?
-        AND Duration = ?  LIMIT 1''',(cUD['Origin'], cUD['Destination'], cUD['Firm'], cUD['TransportType'],cUD['DayOfWeek'],int(cUD['Frequency']),int(cUD['Duration'])))
+        AND Duration = ?  LIMIT 1''',(cUD['Origin'], cUD['Destination'], cUD['Company'], cUD['TransportType'],cUD['DayOfWeek'],int(cUD['Frequency']),int(cUD['Duration'])))
     if c.fetchone() != None:
+         print 'UPDATION'
          c.execute('''UPDATE TransportRoutes
             SET 
             PricePerGram = ? 
@@ -91,13 +92,14 @@ def updateTransportRoute(cUD):
             AND DeliverDay=?
             AND Frequency=?
             AND Duration=? ''',
-            (float(cUD['PricePerGram'], float(cUD['PricePerCC']),
-             cUD.Origin, cUD['Destination'], cUD['Firm'], cUD['TransportType'],cUD['DayOfWeek'],int(cUD['Frequency']),int(cUD['Duration']))))
+            (float(cUD['PricePerGram']), float(cUD['PricePerCC']),
+             cUD['Origin'], cUD['Destination'], cUD['Company'], cUD['TransportType'],cUD['DayOfWeek'],int(cUD['Frequency']),int(cUD['Duration'])))
     else:
-        c.execute('''INSERT INTO TransportRoutes (Origin, Destination, PricePerGram, PricePerCC, Company, DeliverDay, TransportType, Duration, Frequency)
+         print 'INSERTION'
+         c.execute('''INSERT INTO TransportRoutes (Origin, Destination, PricePerGram, PricePerCC, Company, DeliverDay, TransportType, Duration, Frequency)
             VALUES (?,?,?,?,?,?,?,?,?)
             ''',
-            (cUD['Origin'], cUD['Destination'], float(cUD['PricePerGram']), float(cUD['PricePerCC']), cUD['Firm'], cUD['DayOfWeek'], cUD['TransportType'], int(cUD['Duration']), int(cUD['Frequency'])))
+            (cUD['Origin'], cUD['Destination'], float(cUD['PricePerGram']), float(cUD['PricePerCC']), cUD['Company'], cUD['DayOfWeek'], cUD['TransportType'], int(cUD['Duration']), int(cUD['Frequency'])))
     conn.commit()
     conn.close()
     
@@ -144,9 +146,12 @@ def getFilteredRoutes(table,fields,params):
         for key in params: 
             stringFields.append(key + "=" + params[key])
         queryString += " AND ".join(stringFields)
+    print queryString
     c.execute(queryString)
     routes = c.fetchall()
+    print routes
     conn.close()
     return routes
+
 
 #getCustomerRoutes(dict(Origin=1))    

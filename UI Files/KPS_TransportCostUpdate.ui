@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>773</width>
-    <height>343</height>
+    <height>371</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>20</x>
      <y>30</y>
-     <width>256</width>
-     <height>271</height>
+     <width>391</width>
+     <height>321</height>
     </rect>
    </property>
   </widget>
@@ -36,26 +36,13 @@
     <string>Current Routes</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="bt_Select_Route">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>310</y>
-     <width>91</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Select Route</string>
-   </property>
-  </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>420</x>
      <y>10</y>
      <width>321</width>
-     <height>321</height>
+     <height>351</height>
     </rect>
    </property>
    <property name="title">
@@ -117,7 +104,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Firm</string>
+     <string>Company</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -196,7 +183,7 @@
     <property name="geometry">
      <rect>
       <x>180</x>
-      <y>290</y>
+      <y>320</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -271,7 +258,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="tb_Firm">
+   <widget class="QLineEdit" name="tb_Company">
     <property name="geometry">
      <rect>
       <x>180</x>
@@ -281,41 +268,21 @@
      </rect>
     </property>
    </widget>
+   <widget class="QLabel" name="errorLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>290</y>
+      <width>281</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>bt_Select_Route</sender>
-   <signal>clicked()</signal>
-   <receiver>bt_Select_Route</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>40</x>
-     <y>318</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>40</x>
-     <y>318</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>bt_AddEvent</sender>
-   <signal>clicked()</signal>
-   <receiver>bt_AddEvent</receiver>
-   <slot>click()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>524</x>
-     <y>312</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>524</x>
-     <y>312</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

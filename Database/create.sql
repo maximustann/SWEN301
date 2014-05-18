@@ -9,7 +9,7 @@ CREATE TABLE BusinessEvents(
 	Priority INT,
 	PricePerGram REAL,
 	PricePerCC REAL,
-	Company INT REFERENCES Company(ID),
+	Company TEXT,
 	TransportType TEXT,
 	DayOfWeek INT,
 	Frequency REAL,
@@ -21,7 +21,7 @@ CREATE TABLE TransportRoutes(
 	ID INTEGER 	PRIMARY KEY,
 	Origin INT REFERENCES Cities(ID),
 	Destination INT REFERENCES Cities(ID),
-	Company INT REFERENCES company(ID),
+	Company TEXT,
 	TransportType TEXT,
 	DeliverDay INT,
 	PricePerGram REAL,
@@ -52,10 +52,6 @@ CREATE TABLE Mail(
 );
 
 CREATE TABLE Cities(
-	ID INTEGER PRIMARY KEY,
-	Name TEXT NOT NULL
-);
-CREATE TABLE Company(
 	ID INTEGER PRIMARY KEY,
 	Name TEXT NOT NULL
 );
@@ -125,11 +121,10 @@ CREATE VIEW CustomerDisplayRoutes AS
 CREATE VIEW TransportDisplayRoutes AS
 SELECT origin.Name AS Origin, 
          dest.Name AS Destination, 
-         company.Name AS Company,
+	 Company,
          TransportType, DeliverDay,
          PricePerGram, PricePerCC,
          Frequency, Duration
   FROM TransportRoutes AS TR
   JOIN Cities AS origin ON TR.Origin = origin.ID
-  JOIN Cities AS dest ON TR.Destination = dest.ID
-  JOIN Company AS company ON TR.Company = company.ID;
+  JOIN Cities AS dest ON TR.Destination = dest.ID;

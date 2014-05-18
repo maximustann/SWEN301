@@ -30,8 +30,15 @@ class CustomerPriceUpdate_Dialog(QtGui.QDialog):
             PricePerGram = self.ui.tb_PriceG.text(),
             PricePerCC = self.ui.tb_PriceCC.text()
             )
-        if len(EH.updateCustomerPrice(pUD))==0:
+        messages =EH.updateCustomerPrice(pUD)
+        if len(messages)==0:
+            self.ui.errorLabel.setStyleSheet("color: green")
+            self.ui.errorLabel.setText('Update Complete')
             self.updateDisplayedRoutes()
+        else:
+            self.ui.errorLabel.setStyleSheet("color: red")
+            self.ui.errorLabel.setText(messages[0])
+            self.updateDisplayedRoutes()   
             
     def updateDisplayedRoutes(self):
         model = QStandardItemModel()

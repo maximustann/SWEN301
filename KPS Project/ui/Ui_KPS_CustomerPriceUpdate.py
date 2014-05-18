@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'KPS_CustomerPriceUpdate.ui'
 #
-# Created: Sat May 17 17:52:53 2014
+# Created: Sun May 18 21:04:25 2014
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,18 +26,15 @@ except AttributeError:
 class Ui_CustomerPriceUpdate(object):
     def setupUi(self, CustomerPriceUpdate):
         CustomerPriceUpdate.setObjectName(_fromUtf8("CustomerPriceUpdate"))
-        CustomerPriceUpdate.resize(773, 283)
+        CustomerPriceUpdate.resize(773, 260)
         self.lv_availableRoutes = QtGui.QListView(CustomerPriceUpdate)
-        self.lv_availableRoutes.setGeometry(QtCore.QRect(20, 30, 256, 211))
+        self.lv_availableRoutes.setGeometry(QtCore.QRect(20, 30, 256, 191))
         self.lv_availableRoutes.setObjectName(_fromUtf8("lv_availableRoutes"))
         self.label = QtGui.QLabel(CustomerPriceUpdate)
-        self.label.setGeometry(QtCore.QRect(20, 10, 91, 16))
+        self.label.setGeometry(QtCore.QRect(20, 10, 181, 16))
         self.label.setObjectName(_fromUtf8("label"))
-        self.bt_Select_Route = QtGui.QPushButton(CustomerPriceUpdate)
-        self.bt_Select_Route.setGeometry(QtCore.QRect(20, 250, 91, 23))
-        self.bt_Select_Route.setObjectName(_fromUtf8("bt_Select_Route"))
         self.groupBox = QtGui.QGroupBox(CustomerPriceUpdate)
-        self.groupBox.setGeometry(QtCore.QRect(310, 10, 321, 261))
+        self.groupBox.setGeometry(QtCore.QRect(310, 10, 321, 241))
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.cb_Origin = QtGui.QComboBox(self.groupBox)
         self.cb_Origin.setGeometry(QtCore.QRect(180, 20, 131, 20))
@@ -64,7 +61,7 @@ class Ui_CustomerPriceUpdate(object):
         self.label_6.setGeometry(QtCore.QRect(30, 140, 58, 16))
         self.label_6.setObjectName(_fromUtf8("label_6"))
         self.bt_AddEvent = QtGui.QPushButton(self.groupBox)
-        self.bt_AddEvent.setGeometry(QtCore.QRect(180, 230, 75, 23))
+        self.bt_AddEvent.setGeometry(QtCore.QRect(180, 210, 75, 23))
         self.bt_AddEvent.setObjectName(_fromUtf8("bt_AddEvent"))
         self.tb_PriceG = QtGui.QLineEdit(self.groupBox)
         self.tb_PriceG.setGeometry(QtCore.QRect(180, 140, 133, 20))
@@ -72,14 +69,17 @@ class Ui_CustomerPriceUpdate(object):
         self.label_9 = QtGui.QLabel(self.groupBox)
         self.label_9.setGeometry(QtCore.QRect(30, 110, 58, 16))
         self.label_9.setObjectName(_fromUtf8("label_9"))
+        self.errorLabel = QtGui.QLabel(self.groupBox)
+        self.errorLabel.setGeometry(QtCore.QRect(30, 170, 271, 20))
+        self.errorLabel.setText(_fromUtf8(""))
+        self.errorLabel.setObjectName(_fromUtf8("errorLabel"))
 
         self.retranslateUi(CustomerPriceUpdate)
         QtCore.QMetaObject.connectSlotsByName(CustomerPriceUpdate)
 
     def retranslateUi(self, CustomerPriceUpdate):
         CustomerPriceUpdate.setWindowTitle(_translate("CustomerPriceUpdate", "Routes", None))
-        self.label.setText(_translate("CustomerPriceUpdate", "Current Routes", None))
-        self.bt_Select_Route.setText(_translate("CustomerPriceUpdate", "Select Route", None))
+        self.label.setText(_translate("CustomerPriceUpdate", "Current Route Available", None))
         self.groupBox.setTitle(_translate("CustomerPriceUpdate", "Route Details", None))
         self.label_2.setText(_translate("CustomerPriceUpdate", "Select Origin Hub", None))
         self.label_3.setText(_translate("CustomerPriceUpdate", "Select Destination Hub", None))
