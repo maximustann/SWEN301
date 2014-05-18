@@ -34,7 +34,6 @@ CREATE TABLE CustomerRoutes(
 	Origin INT REFERENCES Cities(ID),
 	Destination INT REFERENCES Cities(ID),
 	Priority INT,
-	TransportType TEXT,
 	PricePerGram REAL,
 	PricePerCC REAL
 );
