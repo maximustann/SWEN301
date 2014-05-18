@@ -6,8 +6,11 @@ from PyQt4.QtGui import *;
 import KPS_Hub as hub;
 import KPS_TransportCostUpdate as transportCostUpdate;
 import KPS_Login as login;
+import KPS_Key_Figures as KeyFigures;
+import KPS_Mail_Item as MailItem;
+import KPS_Routes as Routes;
+import KPS_RevisitBusinessEvents as RevisitBusinessEvents;
 from ui import Ui_KPS_Main as ui_main;
-
 
 
 class KPS_MainWindow(QtGui.QMainWindow):
@@ -21,10 +24,16 @@ class KPS_MainWindow(QtGui.QMainWindow):
         self.ui = ui_main.Ui_MainWindow(self)
         self.ui.setupUi(self)
 
-        self.ui.bt_hubs.clicked.connect(self.clicked_bt_Hubs)
-        self.ui.bt_Routes.clicked.connect(self.clicked_bt_Routes)
+        #self.ui.bt_hubs.clicked.connect(self.clicked_bt_Hubs)
+       # self.ui.bt_Routes.clicked.connect(self.clicked_bt_Routes)
 
         self.ui.routeAction.triggered.connect(self.clicked_bt_Routes)
+        self.ui.keyBusinessAction.triggered.connect(self.clicked_bt_keyBusiness)
+        self.ui.addHubAction.triggered.connect(self.clicked_bt_Hubs)
+        self.ui.addMailAction.triggered.connect(self.clicked_bt_MailItem)
+        self.ui.revisitAction.triggered.connect(self.clicked_bt_Revisit)      
+        self.ui.transportAction.triggered.connect(self.clicked_bt_Transportcost)
+        
         model = QStandardItemModel()
         model.setHorizontalHeaderLabels(['Hub', 'Destination','Void'])
         self.ui.treeView.setModel(model)
@@ -37,7 +46,7 @@ class KPS_MainWindow(QtGui.QMainWindow):
         
         model.appendRow(parent1)
         for i in range(3):
-            parent1 = QStandardItem('Family {}. Some long status text for sp'.format(i))
+            parent1 = QStandardItem('Family {}. Some long estatus text for sp'.format(i))
             for j in range(3):
                 child1 = QStandardItem('Child {}'.format(i*3+j))
                 child2 = QStandardItem('row: {}, col: {}'.format(i, j+1))
@@ -52,13 +61,35 @@ class KPS_MainWindow(QtGui.QMainWindow):
         result = Dialog.exec_()
         if result == 1:
             return Dialog.get_value()
+   
     def clicked_bt_Hubs(self):
-        Dialog = hub.Hub_Dialog()
+        Dialog = hub.Hub_Dialog()     
+        Dialog.show()
+        result = Dialog.exec_()
+        
+    def clicked_bt_keyBusiness(self):
+        Dialog = KeyFigures.Key_Figures_Dialog()
         Dialog.show()
         result = Dialog.exec_()
 
-    def clicked_bt_Routes(self):
+    def clicked_bt_Revisit(self):
+        Dialog = RevisitBusinessEvents.RevistBusinessEvents_Dialog()
+        Dialog.show()
+        result = Dialog.exec_()
+
+
+    def clicked_bt_Transportcost(self):
         Dialog = transportCostUpdate.TransportCostUpdate_Dialog()
+        Dialog.show()
+        result = Dialog.exec_()
+        
+    def clicked_bt_MailItem(self):
+        Dialog = MailItem.Mail_Item_Dialog()
+        Dialog.show()
+        result = Dialog.exec_()
+        
+    def clicked_bt_Routes(self):
+        Dialog = Routes.Routes_Dialog()
         Dialog.show()
         result = Dialog.exec_()
 
