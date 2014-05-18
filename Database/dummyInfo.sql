@@ -13,9 +13,9 @@ INSERT INTO TransportRoutes(Origin, Destination, Company, TransportType, Deliver
 
 
 
-INSERT INTO CustomerRoutes(Origin, Destination, Priority, TransportType, PricePerGram, PricePerCC) VALUES(1, 7, 2, "Land", 1.7, 1.3);
-INSERT INTO CustomerRoutes(Origin, Destination, Priority, TransportType, PricePerGram, PricePerCC) VALUES(1, 2, 1, "Air", 2, 2);
-INSERT INTO CustomerRoutes(Origin, Destination, Priority, TransportType, PricePerGram, PricePerCC) VALUES(1, 3, 2, "Land", 1.7, 1.3);
+INSERT INTO CustomerRoutes(Origin, Destination, Priority, PricePerGram, PricePerCC) VALUES(1, 7, 2, 1.7, 1.3);
+INSERT INTO CustomerRoutes(Origin, Destination, Priority, PricePerGram, PricePerCC) VALUES(1, 2, 1, 2, 2);
+INSERT INTO CustomerRoutes(Origin, Destination, Priority, PricePerGram, PricePerCC) VALUES(1, 3, 2, 1.7, 1.3);
 
 
 
