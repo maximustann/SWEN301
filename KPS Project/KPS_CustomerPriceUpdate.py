@@ -11,28 +11,21 @@ class CustomerPriceUpdate_Dialog(QtGui.QDialog):
         self.ui = Ui_KPS_CustomerPriceUpdate.Ui_CustomerPriceUpdate()
         self.ui.setupUi(self)
         self.ui.bt_AddEvent.clicked.connect(self.clicked_bt_Add_Event)    
-        self.ui.bt_Select_Route.clicked.connect(self.selectRoute)
-       
+        #self.ui.bt_Select_Route.clicked.connect(self.clicked_bt_Add_Event)
+        
         self.ui.cb_Origin.addItems(RH.getLocations())
         self.ui.cb_Destination.addItems(RH.getLocations())
+        
 
     def clicked_bt_Add_Event(self):
         priceUpdate = EH.PriceUpdateData(
         Origin = int(self.ui.cb_Origin.currentIndex() + 1),
         Destination = int(self.ui.cb_Destination.currentIndex() + 1),
-        Firm = str(self.ui.tb_Firm.text()),
         PricePerGram = float(self.ui.tb_PriceG.text()),
         PricePerCC = float(self.ui.tb_PriceCC.text()),
-        Priority = float(self.ui.cb_Priority.currentIndex()+1))
-        if len(EH.insertTransportCost(priceUpdate))==0:
+        Priority = 0)
+        if len(EH.updateCustomerPrice(priceUpdate))==0:
             return
     
     def selectRoute(self):
         print "Select Route"
-
-if __name__ == "__main__":
-    import sys
-    app = QtGui.QApplication(sys.argv)
-    Dialog = Ui_KPS_CustomerPriceUpdate()
-    Dialog.show()
-    sys.exit(app.exec_())

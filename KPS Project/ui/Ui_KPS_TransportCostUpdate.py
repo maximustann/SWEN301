@@ -8,8 +8,6 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-import RouteCommandHandler as RH
-import BusinessEventHandler as EH
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -104,8 +102,6 @@ class Ui_TransportCostUpdate(object):
        # QtCore.QObject.connect(self.bt_AddEvent, QtCore.SIGNAL(_fromUtf8("clicked()")), self.addEvent)
         QtCore.QMetaObject.connectSlotsByName(TransportCostUpdate)
         
-        self.initialize()
-
     def retranslateUi(self, TransportCostUpdate):
         TransportCostUpdate.setWindowTitle(_translate("TransportCostUpdate", "Routes", None))
         self.label.setText(_translate("TransportCostUpdate", "Current Routes", None))
@@ -122,28 +118,6 @@ class Ui_TransportCostUpdate(object):
         self.label_9.setText(_translate("TransportCostUpdate", "Price (cc)", None))
         self.label_10.setText(_translate("TransportCostUpdate", "Day of Week", None))
     
-    def initialize(self):
-        self.cb_Origin.addItems(RH.getLocations())
-        self.cb_Destination.addItems(RH.getLocations())
-          
-    def addEvent(self):
-        costUpdate = EH.TransportCostData(
-        Origin = int(self.cb_Origin.currentIndex() + 1),
-        Destination = int(self.cb_Destination.currentIndex() + 1),
-        Firm = str(self.tb_Firm.text()),
-        TransportType = int(self.cb_TransportType.currentIndex() + 1),
-        PricePerGram = float(self.tb_PriceG.text()),
-        PricePerCC = float(self.tb_PriceCC.text()),
-        DayOfWeek = int(self.cb_DayOfWeek.currentIndex() + 1),
-        Frequency = int(self.tb_Frequency.text()),
-        Duration = int(self.tb_Duration.text()))
-        if len(EH.insertTransportCost(costUpdate))==0:
-            #Show success dialog and close window
-            print "Done"
 
-        
-    def selectRoute(self):
-        print "seelct route"
-        
         
 
