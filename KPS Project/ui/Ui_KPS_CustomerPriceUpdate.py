@@ -74,8 +74,6 @@ class Ui_CustomerPriceUpdate(object):
         self.label_9.setObjectName(_fromUtf8("label_9"))
 
         self.retranslateUi(CustomerPriceUpdate)
-        QtCore.QObject.connect(self.bt_Select_Route, QtCore.SIGNAL(_fromUtf8("clicked()")), self.bt_Select_Route.click)
-        QtCore.QObject.connect(self.bt_AddEvent, QtCore.SIGNAL(_fromUtf8("clicked()")), self.bt_AddEvent.click)
         QtCore.QMetaObject.connectSlotsByName(CustomerPriceUpdate)
 
     def retranslateUi(self, CustomerPriceUpdate):

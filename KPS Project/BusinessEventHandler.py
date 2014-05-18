@@ -6,6 +6,7 @@ Created on Wed May 07 20:20:51 2014
 """
 
 import sqlite3
+import RouteCommandHandler as RH;
 
 TRANSPORTCOSTUPDATE = 1
 CUSTOMERPRICEUPDATE = 2
@@ -115,52 +116,16 @@ class PriceUpdateData(object):
     
 def insertTransportCost(cUD): # Cost Update Data
     errorMessages = []
-    print ("inserting")
     errorMessages = errorMessages + cUD.validate()
     if len(errorMessages) > 0:
         return errorMessages
-    conn = sqlite3.connect("../Database/Business.db")
-    c = conn.cursor()
-    print (cUD.DayOfWeek)
-    print
-    print
-    c.execute('''INSERT INTO BusinessEvents (EventTypeID, Origin, Destination, PricePerGram, PricePerCC, Company,
-    TransportType, DayOfWeek, Frequency, Duration) VALUES (?,?,?,?,?,?,?,?,?,?)''',
-              (TRANSPORTCOSTUPDATE,cUD.Origin, cUD.Destination, cUD.PricePerGram, cUD.PricePerCC, cUD.Firm,
-              cUD.TransportType, cUD.DayOfWeek, cUD.Frequency, cUD.Duration))
-    c.execute('''SELECT * FROM TransportRoutes 
-        WHERE Origin = ? 
-        AND Destination = ? 
-        AND Company = ? 
-        AND TransportType = ?
-        AND DeliverDay = ?
-        AND Frequency = ?
-        AND Duration = ?''',(cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
-    if c.fetchone() != None:
-         print ('Holla')
-         c.execute('''UPDATE TransportRoutes
-            SET 
-            PricePerGram = ? 
-            AND PricePerCC = ?
-            WHERE Origin=? 
-            AND Destination=? 
-            AND Company=? 
-            AND TransportType=?
-            AND DeliverDay=?
-            AND Frequency=?
-            AND Duration=?''',
-            (cUD.PricePerGram, cUD.PricePerCC,
-             cUD.Origin, cUD.Destination, cUD.Firm, cUD.TransportType,cUD.DayOfWeek,cUD.Frequency,cUD.Duration))
-    else:
-        print (c.fetchone())
-        c.execute('''INSERT INTO TransportRoutes (Origin, Destination, PricePerGram, PricePerCC, Company, DeliverDay, TransportType, Duration, Frequency)
-            VALUES (?,?,?,?,?,?,?,?,?)
-            ''',
-            (cUD.Origin, cUD.Destination, cUD.PricePerGram, cUD.PricePerCC, cUD.Firm, cUD.DayOfWeek, cUD.TransportType, cUD.Duration, cUD.Frequency))
-    conn.commit()
-    #c.execute('select * from BusinessEvents')
-    #print c.fetchall()
-    c.execute('select * from TransportRoutes')
-    #print c.fetchall()
-    conn.close()
+    RH.updateTransportRoute(cUD)
+    return errorMessages  
+
+def updateCustomerPrice(pUD):
+    errorMessages = []
+    errorMessages = errorMessages + pUD.validate()
+    if len(errorMessages) > 0:
+        return errorMessages
+    RH.updateCustomerRoute(pUD)
     return errorMessages  

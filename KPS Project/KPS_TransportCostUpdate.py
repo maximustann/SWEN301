@@ -1,11 +1,14 @@
 #!/usr/bin/env python
-
-from PyQt4 import QtGui;
+from PyQt4 import QtGui, QtCore
+from PyQt4.QtGui import *;
+from PyQt4.QtCore import *;
 from ui import Ui_KPS_TransportCostUpdate;
 import RouteCommandHandler as RH;
 import BusinessEventHandler as EH;
 
+
 class TransportCostUpdate_Dialog(QtGui.QDialog):
+
     def __init__(self):
         super(TransportCostUpdate_Dialog, self).__init__()
         self.ui = Ui_KPS_TransportCostUpdate.Ui_TransportCostUpdate()
@@ -15,6 +18,11 @@ class TransportCostUpdate_Dialog(QtGui.QDialog):
        
         self.ui.cb_Origin.addItems(RH.getLocations())
         self.ui.cb_Destination.addItems(RH.getLocations())
+        self.ui.cb_TransportType.addItems(RH.getTransportTypes())
+        self.ui.cb_DayOfWeek.addItems(RH.getDaysOfWeek())
+        
+        self.ui.cb_Origin.currentIndexChanged.connect(self.updateDisplayedRoutes)
+        
 
     def clicked_bt_Add_Event(self):
         costUpdate = EH.TransportCostData(
@@ -32,6 +40,15 @@ class TransportCostUpdate_Dialog(QtGui.QDialog):
     
     def selectRoute(self):
         print "Select Route"
+        
+    def updateDisplayedRoutes(self):
+        model = QStandardItemModel()
+        self.ui.lv_availableRoutes.setModel(model)
+        item = QStandardItem('Dog')
+        model.appendRow(item)
+        item2 = QStandardItem('Cat')
+        model.appendRow(item2)
+
 
 if __name__ == "__main__":
     import sys
