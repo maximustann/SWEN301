@@ -67,10 +67,10 @@ def validate(eventDict):
         elif not(float(eventDict.get("PricePerCC")) > 0):
             errorMessages.append("PricePerCC must be greater than zero");
            
-    if(eventDict.get("Firm") != None):
+    if(eventDict.get("Company") != None):
         # check correct format
-        if not (isinstance(eventDict.get("Firm"), str)):
-            errorMessages.append("Firm not in string format");
+        if not (isinstance(eventDict.get("Company"), str)):
+            errorMessages.append("Company not in string format");
            
     if(eventDict.get("TransportType") != None):
         # check correct format
