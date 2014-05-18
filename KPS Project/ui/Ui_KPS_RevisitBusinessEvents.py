@@ -39,8 +39,7 @@ class Ui_Form(object):
         brush.setStyle(QtCore.Qt.SolidPattern)  
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
         
-
-
+        self.inWork = True
         
         brush = QtGui.QBrush(QtGui.QColor(8, 129, 2))
         brush.setStyle(QtCore.Qt.SolidPattern)  
@@ -112,6 +111,10 @@ class Ui_Form(object):
         self.cb_EventType.currentIndexChanged['QString'].connect(self.handleChanged)       
         self.label_2 = QtGui.QLabel(Form)
         self.label_2.setGeometry(QtCore.QRect(70, 50, 121, 21))
+        
+        self.label_3 = QtGui.QLabel(Form)
+        self.label_3.setGeometry(QtCore.QRect(190, 90, 221, 21))
+        
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -123,11 +126,14 @@ class Ui_Form(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
         self.label_2.setPalette(palette)
+        self.label_3.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily(_fromUtf8("Segoe UI"))
         font.setPointSize(12)
         self.label_2.setFont(font)
         self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.label_3.setFont(font)
+        self.label_3.setObjectName(_fromUtf8("label_3"))
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -139,6 +145,7 @@ class Ui_Form(object):
         self.bt_Later.setText(_translate("Form", ">>", None))
         self.label.setText(_translate("Form", "Revisit business events", None))
         self.label_2.setText(_translate("Form", "Select Event Type", None))
+       
     
     def initialize(self):
        self.cb_EventType.addItems(self.getBusinessEventsType())
@@ -158,6 +165,13 @@ class Ui_Form(object):
         query = QtSql.QSqlQuery()
 
         query.exec_("Select * from BusinessEvents a, EventTypes b where b.Event = '" + text + "' and b.EventTypeID = a.EventTypeID order by ID DESC LIMIT " + str(self.eventSkip) + ",1")
+        
+        if query.size() == -1:
+            self.label_3.setText(_translate("Form", "No Records found", None))
+            self.inWork = True
+        else:
+            self.label_3.setText(_translate("Form", "", None))
+            self.inWork = False
         while query.next():
             if query.value(2) != '':
                 modelInputItem = QtGui.QStandardItem("Origin")
@@ -217,13 +231,15 @@ class Ui_Form(object):
         self.tb_EventViewer.setModel(modelView)
  
     def clicked_bt_Earlier(self):
-        self.eventSkip = self.eventSkip + 1
+        if self.inWork:
+            self.eventSkip = self.eventSkip + 1
         self.handleChanged(self.cb_EventType.currentText())
         
     def clicked_bt_Later(self):
-        if self.eventSkip > 0:
-            self.eventSkip = self.eventSkip - 1    
-            self.handleChanged(self.cb_EventType.currentText())
+        if self.inWork:
+            if self.eventSkip > 0:
+                self.eventSkip = self.eventSkip - 1    
+                self.handleChanged(self.cb_EventType.currentText())
         
 class Database:
     def __init__(self, parent = None):
