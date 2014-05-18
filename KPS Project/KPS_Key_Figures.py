@@ -56,10 +56,17 @@ class Key_Figures_Dialog(QtGui.QDialog):
     
     def criticalRoutes(self):
         model = QSqlQueryModel()
-        model.setQuery('''SELECT Origin, Destination, Priority, avg(costKPS-costClient)
-                    FROM Mail
-                    WHERE costKPS > costClient
-                    GROUP BY Origin, Destination, Priority;''')
+        model.setQuery('''SELECT C.Name, R.Name, R.Priority, R.Loss
+                FROM(SELECT Q.Origin, C.Name, P.Priority, Q.Loss
+                    FROM(SELECT Origin, Destination, Priority, avg(costKPS-costClient) as Loss
+                        FROM Mail
+                        WHERE costKPS > costClient
+                        GROUP BY Origin, Destination, Priority) as Q, Priorities as P, Cities as C
+                    WHERE P.ID = Q.Priority AND C.ID = Q.Destination) as R, Cities as C
+                WHERE C.ID = R.Origin;''')
+        model.setHeaderData(0, Qt.Qt.Horizontal, "Origin")
+        model.setHeaderData(1, Qt.Qt.Horizontal, "Destination")
+        model.setHeaderData(2, Qt.Qt.Horizontal, "Priority")
         model.setHeaderData(3, Qt.Qt.Horizontal, "Average Loss")
         return model
     
