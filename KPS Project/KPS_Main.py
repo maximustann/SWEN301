@@ -87,7 +87,8 @@ class KPS_MainWindow(QtGui.QMainWindow):
         Dialog = MailItem.Mail_Item_Dialog()
         Dialog.show()
         result = Dialog.exec_()
-        
+        if result == 1:
+            return Dialog.getValue()
     def clicked_bt_Routes(self):
         Dialog = Routes.CustomerPriceUpdate_Dialog()
         Dialog.show()

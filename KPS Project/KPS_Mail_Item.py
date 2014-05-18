@@ -5,6 +5,8 @@ from ui import Ui_KPS_Mail_Item as ui_mail_item
 import sqlite3 as lite
 import time
 import mail_item
+import graph
+import dij
 
 
 class Mail_Item_Dialog(QtGui.QDialog):
@@ -44,7 +46,6 @@ class Mail_Item_Dialog(QtGui.QDialog):
     def change_destination(self):
         origin_city = self.ui.comboBox_4.currentText()
         if self.history_city == None:
-            print origin_city
             dest_city = self.ui.comboBox_2.findText(origin_city)
             if dest_city != -1:
                 self.ui.comboBox_2.removeItem(dest_city)
@@ -56,20 +57,19 @@ class Mail_Item_Dialog(QtGui.QDialog):
                 self.ui.comboBox_2.removeItem(dest_city)
                 self.history_city = origin_city
     def setPriority(self):
-        self.ui.comboBox_3.addItem("")
-        self.ui.comboBox_3.addItem("")
-        self.ui.comboBox_3.setItemText(0, "1")
-        self.ui.comboBox_3.setItemText(1, "2")
-    def setOrigin(self):
-        self.cur.execute("SELECT name from Cities")
-        i = 0
+        self.cur.execute("SELECT Priority from Priorities")
         while True:
             row = self.cur.fetchone()
             if row == None:
                 break
-            self.ui.comboBox_4.addItem("")
-            self.ui.comboBox_4.setItemText(i, row[0])
-            i += 1
+            self.ui.comboBox_3.addItem(row[0])
+    def setOrigin(self):
+        self.cur.execute("SELECT name from Cities")
+        while True:
+            row = self.cur.fetchone()
+            if row == None:
+                break
+            self.ui.comboBox_4.addItem(row[0])
     '''        
     def setTransportType(self):
         self.cur.execute("SELECT Type from TransportTypes")
@@ -84,32 +84,120 @@ class Mail_Item_Dialog(QtGui.QDialog):
 '''
     def setDestination(self):
         self.cur.execute("SELECT name from Cities")
-        i = 0
         while True:
             row = self.cur.fetchone()
             if row == None:
                 break
-            self.ui.comboBox_2.addItem("")
-            self.ui.comboBox_2.setItemText(i, row[0])
-            i += 1
+            self.ui.comboBox_2.addItem(row[0])
+    def trans(self):
+        sql = str("SELECT ID FROM Cities WHERE Name=\"" + self.mail.origin + "\"")
+        self.cur.execute(sql)
+        row = self.cur.fetchone()
+        if row == None:
+            print("Database Error!")
+        else:
+            self.mail.origin = row[0]
+
+        sql = str("SELECT ID FROM Cities WHERE Name=\"" + self.mail.destination+ "\"")
+        self.cur.execute(sql)
+        row = self.cur.fetchone()
+        if row == None:
+            print("Database Error!")
+        else:
+            self.mail.destination = row[0]
     def getValue(self):
         origin = self.ui.comboBox_4.currentText()
         destination = self.ui.comboBox_2.currentText()
+        print destination
         priority = self.ui.comboBox_3.currentText()
-        types = self.ui.comboBox.currentText()
         weight = self.ui.lineEdit_3.text()
         volume = self.ui.lineEdit_4.text()
         entrytime = time.time()
-        mail = mail_item.Mail_Item(
+        self.mail = mail_item.Mail_Item(
                     origin,
                     priority,
-                    types,
                     destination,
                     weight,
                     volume,
                     entrytime
                )
-        return mail
+        self.trans()
+        self.transport_cost()
+        self.construct_graph()
+        return self.mail
+
+    def transport_cost(self):
+        route = []
+        self.transport = []
+        sql = str("SELECT * from TransportRoutes")
+        self.cur.execute(sql)
+        while True:
+            row = self.cur.fetchone()
+            if row == None:
+                break
+            route.append(row[1]) #origin
+            route.append(row[2]) #destination
+            route.append(row[3]) #company
+            route.append(row[4]) #transportType
+            route.append(row[5]) #deliverDay
+            cost = row[6] * float(self.mail.weight)
+            cost += row[7] * float(self.mail.volume)
+            route.append(cost)  #Pricegram * weight + PriceCC * volume
+            route.append(row[9]) #duration
+            self.transport.append(route)
+            route = []
+        self.trans_filter()
+
+    def construct_graph(self):
+        self.G = {}
+        raw_data = []
+        charge = 0
+        for i in range(len(self.new_transport)):
+            data = {}
+            dest = {}
+            origin_city = self.new_transport[i][0]
+            dest_city = self.new_transport[i][1]
+            dest[dest_city] = self.new_transport[i][5]
+            data[origin_city] = dest
+            raw_data.append(data)
+        for meta in raw_data:
+            graph.make_link(self.G, meta.keys()[0], meta.values()[0].keys()[0], meta.values()[0].values()[0])
+
+        path = dij.shortestPath(self.G, self.mail.origin, self.mail.destination)
+        for i in range(len(path) - 1):
+            charge += self.G[path[i]][path[i + 1]]
+
+        
+        print path, charge
+    def trans_filter(self):
+        self.new_transport = []
+        temp = None
+        i = 0
+        while True:
+            if i > len(self.transport) - 2:
+                break
+            if temp == None:
+                if (self.transport[i][0] == self.transport[i + 1][0]) and (self.transport[i][1] == self.transport[i + 1][1]):
+                    if self.transport[i][5] >= self.transport[i + 1][5]:
+                        temp = self.transport[i]
+                        i += 1
+                    else:
+                        temp = self.transport[i + 1]
+                        i += 1
+                else:
+                    self.new_transport.append(self.transport[i])
+                    i += 1
+            else:
+                if (self.transport[i][0] == temp[0]) and (self.transport[i][1] == temp[1]):
+                    if self.transport[i][5] >= temp[5]:
+                        temp = self.transport[i]
+                        i += 1
+                    else:
+                        i += 1
+                else:
+                    self.new_transport.append(temp)
+                    temp = None
+                    i += 1
 '''
     def change_types(self):
         if(self.ui.comboBox_3.currentText() == '2'):
@@ -140,3 +228,5 @@ if __name__ == "__main__":
     Dialog = Mail_Item_Dialog()
     Dialog.show()
     sys.exit(app.exec_())
+    Dialog.getValue()
+    Dialog.trans()
