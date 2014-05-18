@@ -1,21 +1,5 @@
-INSERT INTO Cities(Name) VALUES("Wellington");
-INSERT INTO Cities(Name) VALUES("Auckland");
-INSERT INTO Cities(Name) VALUES("Hamilton");
-INSERT INTO Cities(Name) VALUES("Rotorua");
-INSERT INTO Cities(Name) VALUES("Palmeston North");
-INSERT INTO Cities(Name) VALUES("Dunedin");
-INSERT INTO Cities(Name) VALUES("Christchurch");
-
-
 INSERT INTO Company(Name) VALUES("Nz Air");
 INSERT INTO company(Name) VALUES("Planet Express");
-
-
-INSERT INTO EventTypes(Event) VALUES("Mail Delivery");
-INSERT INTO EventTypes(Event) VALUES("Customer Price Update");
-INSERT INTO EventTypes(Event) VALUES("Transport Cost Update");
-INSERT INTO EventTypes(Event) VALUES("Transport Discontinued");
-
 
 
 INSERT INTO TransportRoutes(Origin, Destination, Company, TransportType, DeliverDay, PricePerGram, PricePerCC, Frequency, Duration) VALUES(1, 2, 2, "Air", 1, 1.2, 1.5, 36, 1);

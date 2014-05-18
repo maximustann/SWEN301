@@ -71,13 +71,13 @@ CREATE TABLE TransportTypes(
 );
 
 INSERT INTO EventTypes (Event) VALUES
-('TransportCostUpdate');
+('Transport Cost Update');
 INSERT INTO EventTypes (Event) VALUES
-('CustomerPriceUpdate');
+('Customer Price Update');
 INSERT INTO EventTypes (Event) VALUES
-('TransportDiscontinued');
+('Transport Discontinued');
 INSERT INTO EventTypes (Event) VALUES
-('MailDelivery');
+('Mail Delivery');
 	
 INSERT INTO DaysOfWeek(Day) VALUES
 ('Sunday');
