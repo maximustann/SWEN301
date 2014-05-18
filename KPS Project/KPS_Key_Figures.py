@@ -54,19 +54,21 @@ class Key_Figures_Dialog(QtGui.QDialog):
         model.setHeaderData(4, Qt.Qt.Horizontal, "Total Count")
         return model
     
-    def criticalRoutes(self): # incomplete
+    def criticalRoutes(self):
         model = QSqlQueryModel()
-        # model.setQuery()
-        # (destination, origin, priority) where ave delivery cost > ave customer payment
-        # need to know ave (per item) difference between revenue and expenditure for each critical route...
+        model.setQuery('''SELECT Origin, Destination, Priority, avg(costKPS-costClient)
+                    FROM Mail
+                    WHERE costKPS > costClient
+                    GROUP BY Origin, Destination, Priority;''')
+        model.setHeaderData(3, Qt.Qt.Horizontal, "Average Loss")
         return model
     
-    def averageDelTime(self): # query problem: mail table doesn't have DeliveryTime column yet
+    def averageDelTime(self): # this doesn't work if the DeliverTime column doesn't exist...
         model = QSqlQueryModel()
-        model.setQuery('''SELECT origin, destination, priority, avg(DeliveryTime)
+        model.setQuery('''SELECT origin, destination, priority, avg(DeliverTime)
                 FROM mail
                 group by origin, destination, priority;''')
-        model.setHeaderData(3, Qt.Qt.Horizontal, "Average Delivery Time")
+        model.setHeaderData(3, Qt.Qt.Horizontal, "Time")
         return model
 
 if __name__ == "__main__":
