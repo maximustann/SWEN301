@@ -8,7 +8,7 @@ def validate(eventDict):
         
     if(eventDict.get("Origin") != None):
         # check correct format
-        if not (Validation.valueToFloat(eventDict.get("Origin"))):
+        if not (valueToFloat(eventDict.get("Origin"))):
             errorMessages.append("Origin not in int format");
             
         # origin cannot be equal to destination   
@@ -17,12 +17,12 @@ def validate(eventDict):
            
     if(eventDict.get("Destination") != None):
         # check correct format
-        if not (Validation.valueToFloat(eventDict.get("Destination"))):
+        if not (valueToFloat(eventDict.get("Destination"))):
             errorMessages.append("Destination not in int format");
            
     if(eventDict.get("Weight") != None):
         # check correct format
-        if not (Validation.valueToFloat(eventDict.get("Weight"))):
+        if not (valueToFloat(eventDict.get("Weight"))):
             errorMessages.append("Weight not in real format");
             
         # check greater than zero
@@ -31,7 +31,7 @@ def validate(eventDict):
 
     if(eventDict.get("Volume") != None):
         # check correct format
-        if not (Validation.valueToFloat(eventDict.get("Volume"))):
+        if not (valueToFloat(eventDict.get("Volume"))):
             errorMessages.append("Volume not in real format");
             
         # check greater than zero
@@ -53,7 +53,9 @@ def validate(eventDict):
            
     if(eventDict.get("PricePerGram") != None):
         # check correct format
-        if not (Validation.valueToFloat(eventDict.get("PricePerGram"))):
+        
+        
+        if not (valueToFloat(eventDict.get("PricePerGram"))):
             errorMessages.append("PricePerGram not in real format");
         # check greater than zero
         elif not(eventDict.get("PricePerGram") > 0):
@@ -61,7 +63,7 @@ def validate(eventDict):
            
     if(eventDict.get("PricePerCC") != None):
         # check correct format
-        if not (Validation.valueToFloat(eventDict.get("PricePerCC"))):
+        if not (valueToFloat(eventDict.get("PricePerCC"))):
             errorMessages.append("PricePerCC not in real format");
         # check greater than zero
         elif not(eventDict.get("PricePerCC") > 0):
@@ -82,7 +84,7 @@ def validate(eventDict):
            
     if(eventDict.get("DayOfWeek") != None):
         # check correct format
-        if not (Validation.valueToFloat(eventDict.get("DayOfWeek"))):
+        if not (valueToFloat(eventDict.get("DayOfWeek"))):
             errorMessages.append("DayOfWeek not in int format");
         # day of the week must be between 1 and 7
         elif (eventDict.get("DayOfWeek")>7 or eventDict.get("DayOfWeek")<1):
@@ -90,14 +92,14 @@ def validate(eventDict):
              
     if(eventDict.get("Frequency") != None):
         # check correct format
-        if not (Validation.valueToFloat(eventDict.get("Frequency"))):
+        if not (valueToFloat(eventDict.get("Frequency"))):
             errorMessages.append("Frequency not in real format");
         elif not (eventDict.get("Frequency")>0):
             errorMessages.append("Frequency must be greater than 0");
            
     if(eventDict.get("Duration") != None):
         # check correct format
-        if not (Validation.valueToFloat(eventDict.get("Duration"))):
+        if not (valueToFloat(eventDict.get("Duration"))):
             errorMessages.append("Duration not in real format");    
         # check greater than zero
         elif not(eventDict.get("Duration") > 0):
@@ -108,6 +110,7 @@ def validate(eventDict):
 def valueToFloat(value):
     try:
         float(value)
-        return True
+        value = float(value)
+        return True;
     except ValueError:
         return False

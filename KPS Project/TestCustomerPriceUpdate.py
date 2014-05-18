@@ -10,7 +10,7 @@ class TestCustomerPriceUpdate(unittest.TestCase):
     def testUpdateCustomerPrice001(self):
         event = {"Origin": 1,"Destination": 2, "Priority": 2,"PricePerGram": 5,"PricePerCC": 4, "Firm": "Nick McNeil Airways",
                  "TransportType": "Air","DayOfWeek": 6, "Frequency": 54,"Duration": 3}
-        errorMessages = validate(event)
+        errorMessages = Validation.validate(event)
         assert(len(errorMessages) == 0),errorMessages          
 
     # Invalid format
@@ -18,7 +18,7 @@ class TestCustomerPriceUpdate(unittest.TestCase):
         event = {"Origin":"abc","Destination": "def", "Priority": "ghi","PricePerGram": "jkl","PricePerCC": "mno", "Firm": 7,
                  "TransportType": 1,"DayOfWeek": "pqr", "Frequency": "stu","Duration": "vwx"}
 
-        errorMessages = validate(event)
+        errorMessages = Validation.validate(event)
         assert(len(errorMessages) == 10), errorMessages   
     
     # Values out of range
@@ -26,7 +26,7 @@ class TestCustomerPriceUpdate(unittest.TestCase):
         event = {"Origin": 3,"Destination": 4, "Priority": 8,"PricePerGram": 0,"PricePerCC": -4.60, "Firm": "Nick McNeil Airways",
                  "TransportType": "Air","DayOfWeek": 8, "Frequency": 0,"Duration": -10}
         
-        errorMessages = validate(event)
+        errorMessages = Validation.validate(event)
         assert(len(errorMessages) == 6), errorMessages 
         
     # Origin cannot equal destination
@@ -34,7 +34,7 @@ class TestCustomerPriceUpdate(unittest.TestCase):
         event = {"Origin": 5,"Destination": 5, "Priority": 2,"PricePerGram": 5,"PricePerCC": 4, "Firm": "Nick McNeil Airways",
                  "TransportType": "Air","DayOfWeek": 6, "Frequency": 54,"Duration": 3}
 
-        errorMessages = validate(event)
+        errorMessages = Validation.validate(event)
         assert(len(errorMessages) == 1), errorMessages  
 
 def suite():
