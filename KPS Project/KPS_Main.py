@@ -8,7 +8,7 @@ import KPS_TransportCostUpdate as transportCostUpdate;
 import KPS_Login as login;
 import KPS_Key_Figures as KeyFigures;
 import KPS_Mail_Item as MailItem;
-import KPS_Routes as Routes;
+import KPS_CustomerPriceUpdate as Routes;
 import KPS_RevisitBusinessEvents as RevisitBusinessEvents;
 from ui import Ui_KPS_Main as ui_main;
 
@@ -24,6 +24,7 @@ class KPS_MainWindow(QtGui.QMainWindow):
         self.ui = ui_main.Ui_MainWindow(self)
         self.ui.setupUi(self)
 
+  
         #self.ui.bt_hubs.clicked.connect(self.clicked_bt_Hubs)
        # self.ui.bt_Routes.clicked.connect(self.clicked_bt_Routes)
 
@@ -77,19 +78,18 @@ class KPS_MainWindow(QtGui.QMainWindow):
         Dialog.show()
         result = Dialog.exec_()
 
-
     def clicked_bt_Transportcost(self):
         Dialog = transportCostUpdate.TransportCostUpdate_Dialog()
         Dialog.show()
         result = Dialog.exec_()
-        
+             
     def clicked_bt_MailItem(self):
         Dialog = MailItem.Mail_Item_Dialog()
         Dialog.show()
         result = Dialog.exec_()
         
     def clicked_bt_Routes(self):
-        Dialog = Routes.Routes_Dialog()
+        Dialog = Routes.CustomerPriceUpdate_Dialog()
         Dialog.show()
         result = Dialog.exec_()
 
