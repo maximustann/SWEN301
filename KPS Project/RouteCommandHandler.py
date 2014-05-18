@@ -11,6 +11,9 @@ CUSTOMERPRICEUPDATE = 2
 TRANSPORTDISCONTINUED = 3
 MAILDELIVERY = 4
 
+CustomerDisplayRoutes = 'CustomerDisplayRoutes'
+CustomerRoutes = 'CustomerRoutes'
+
 def getLocations():
     conn = sqlite3.connect("../Database/Business.db")
     conn.text_factory = str
@@ -124,22 +127,8 @@ def updateCustomerRoute(pUD):
     c.execute('''SELECT * FROM CustomerRoutes''')
     print c.fetchall()
     conn.close()
-
-def getCustomerRoutes():
-    conn = sqlite3.connect("../Database/Business.db")
-    c = conn.cursor()  
-    conn.text_factory = str
-    queryString = '''
-        SELECT origin.Name, destination.name, Priorities.Priority FROM CustomerRoutes AS CR 
-        JOIN Priorities ON CR.priority = Priorities.id
-        JOIN Cities AS origin ON CR.Origin = origin.id
-        JOIN Cities AS destination ON CR.Destination = destination.id'''
-    c.execute(queryString)
-    routes = c.fetchall()
-    conn.close()
-    return routes
     
-def getFilteredCustomerRoutes(fields,params):
+def getFilteredCustomerRoutes(table,fields,params):
     conn = sqlite3.connect("../Database/Business.db")
     c = conn.cursor()  
     conn.text_factory = str
@@ -148,7 +137,7 @@ def getFilteredCustomerRoutes(fields,params):
         queryString += '*'
     else:
         queryString += ",".join(fields)
-    queryString+=' FROM CustomerRoutes '
+    queryString+=' FROM %s '%table
     if params != None:
         queryString+='WHERE '
         stringFields = []
@@ -156,44 +145,14 @@ def getFilteredCustomerRoutes(fields,params):
             stringFields.append(key + "=" + params[key])
         queryString += " AND ".join(stringFields)
     c.execute(queryString)
+    print queryString
     routes = c.fetchall()
     conn.close()
     return routes
     
-def getFilteredCustomerDisplayRoutes(fields,params):
-    conn = sqlite3.connect("../Database/Business.db")
-    c = conn.cursor()  
-    conn.text_factory = str
-    queryString = '''SELECT '''
-    if fields == None:
-        queryString += '*'
-    else:
-        queryString += ",".join(fields)
-    queryString+=' FROM CustomerDisplayRoutes '
-    if params != None:
-        queryString+='WHERE '
-        stringFields = []
-        for key in params: 
-            stringFields.append(key + "=" + params[key])
-        queryString += " AND ".join(stringFields)
-    print queryString
-    c.execute(queryString)
-    routes = c.fetchall()
-    conn.close()
-    print routes
-    print queryString
-    return routes
+insertLocations()
+getFilteredCustomerRoutes(CustomerDisplayRoutes,['Origin','Destination'],dict(Origin='1',Destination='1'))
 
-   #     SELECT origin.Name, destination.name, Priorities.Priority FROM CustomerRoutes AS CR 
-    #    JOIN Priorities ON CR.priority = Priorities.id
-     #   JOIN Cities AS origin ON CR.Origin = origin.id
-      #  JOIN Cities AS destination ON CR.Destination = destination.id'''
-    #c.execute(queryString)
-    #routes = c.fetchall()
-    #conn.close()
-    #return routes
-
-#getFilteredCustomerDisplayRoutes(['Origin','Destination'],dict(Origin='1',Destination='1'))
 
 
 #getCustomerRoutes(dict(Origin=1))    
