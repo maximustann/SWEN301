@@ -4,16 +4,16 @@
 import unittest
 import BusinessEventHandler
 
-class TestCustomerPriceUpdate(unittest.TestCase):
+class TestMail(unittest.TestCase):
 
-    # Successful transport cost update
-    def testUpdateCustomerPrice001(self):
+    # Successful mail cost update
+    def testMail001(self):
         cUD = BusinessEventHandler.PriceUpdateData("Japan","France", 1.20, 2.50,2)
         errorMessages = cUD.validate()
         assert(len(errorMessages) == 0),errorMessages       
         
     # Invalid data format
-    def testUpdateCustomerPrice002(self):
+    def testMail002(self):
         invalidData = [BusinessEventHandler.PriceUpdateData("Japan","Japan", 1.20, 2.50,2),
                        BusinessEventHandler.PriceUpdateData(1.95,"France", 1.20, 2.50,2),
                        BusinessEventHandler.PriceUpdateData("Japan", 6, 1.20, 2.50,2),
@@ -25,6 +25,15 @@ class TestCustomerPriceUpdate(unittest.TestCase):
         for data in invalidData:
             errorMessages = data.validate()
             assert(len(errorMessages) != 0), errorMessages   
+            
+    def testMail003(self):
+        print("")
+        
+    def testMail004(self):
+        print("")
+        
+    def testMail005(self):
+        print("")
 
 def suite():
     # combine the tests into a test suite

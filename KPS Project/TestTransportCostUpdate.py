@@ -8,13 +8,13 @@ import BusinessEventHandler
 
 class TestTransportCostUpdate(unittest.TestCase):
 
-    # Successful transport cost update
+    # successful transport cost update
     def testUpdateTransportCost001(self):
         cUD = BusinessEventHandler.TransportCostData("Auckland","Croatia", 1.20, 2.50, "Nick McNeil Airways", "Air", "Sunday", 3, 2.0)
         errorMessages = cUD.validate()
         assert(len(errorMessages) == 0),errorMessages       
         
-    # Invalid data format
+    # invalid data
     def testUpdateTransportCost002(self):
         invalidData = [BusinessEventHandler.TransportCostData("Auckland","Auckland", 1.20, 2.50, "Nick McNeil Airways", "Air", "Sunday", 3, 2.0),
                        BusinessEventHandler.TransportCostData(1,"Croatia", 1.20, 2.50, "Nick McNeil Airways", "Air", "Sunday", 3, 2.0),
@@ -30,6 +30,14 @@ class TestTransportCostUpdate(unittest.TestCase):
         for data in invalidData:
             errorMessages = data.validate()
             assert(len(errorMessages) != 0), errorMessages   
+            
+    # cannot connect to route database
+    def testUpdateTransportCost003(self):
+        print("")  
+        
+    # no routes available to delete
+    def testUpdateTransportCost004(self):
+        print("")  
 
 
 def suite():
