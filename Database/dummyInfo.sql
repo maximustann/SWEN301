@@ -23,3 +23,17 @@ INSERT INTO CustomerRoutes(Origin, Destination, Priority, PricePerGram, PricePer
 
 
 
+
+INSERT INTO Cities(Name) VALUES("Auckland");
+INSERT INTO Cities(Name) VALUES("Wellington");
+INSERT INTO Cities(Name) VALUES("Dunedin");
+
+INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 2, 4.0, 6.0, 1, 5.0, 5.0, 1, 1);
+INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 2, 3.0, 6.0, 1, 5.0, 5.0, 1, 1);
+INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 2, 9.0, 6.0, 1, 5.0, 5.0, 1, 1);
+INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 2, 31.0, 4.0, 1, 5.0, 5.0, 1, 1);
+INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 3, 9.0, 6.0, 1, 5.0, 5.0, 1, 1);
+INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 3, 34.0, 4.0, 1, 5.0, 5.0, 1, 1);
+INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 3, 9.0, 6.0, 2, 5.0, 5.0, 1, 1);
+INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 3, 34.0, 4.0, 2, 5.0, 5.0, 1, 1);
+
