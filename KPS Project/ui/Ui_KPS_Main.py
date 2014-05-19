@@ -26,6 +26,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         MainWindow.resize(1024, 600)
         palette = QtGui.QPalette()
         toolBarPalette = QtGui.QPalette()
+        
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
@@ -48,9 +49,20 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.treeView = QtGui.QTreeView(self.centralwidget)
-        self.treeView.setGeometry(QtCore.QRect(20, 150, 661, 341))
+        self.treeView.setGeometry(QtCore.QRect(20, 200, 661, 341))
         self.treeView.setObjectName(_fromUtf8("treeView"))
         self.treeView.setSelectionBehavior(QAbstractItemView.SelectRows)
+        
+        self.label_2 = QtGui.QLabel(MainWindow)
+        self.label_2.setGeometry(QtCore.QRect(25, 190, 221, 21))
+        self.label_2.setStyleSheet("Color: white;")
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Segoe UI"))
+        font.setPointSize(16)
+        self.label_2.setFont(font)
+      
+        self.label_2.setObjectName(_fromUtf8("label_2"))
+        self.label_2.setText(_translate("MainWindow", "Customer Routes", None))
         '''
         self.bt_hubs = QtGui.QPushButton(self.centralwidget)
         self.bt_hubs.setGeometry(QtCore.QRect(380, 60, 75, 23))

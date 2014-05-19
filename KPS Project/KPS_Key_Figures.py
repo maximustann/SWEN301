@@ -6,6 +6,7 @@ Created on 10/05/2014
 from PyQt4.QtSql import *;
 from PyQt4 import QtGui, Qt
 import KeyEventsCommandHandler as events_handler
+import locale
 from ui import Ui_KPS_KeyFigures as ui_key_figures;
 
 class Database:
@@ -19,11 +20,11 @@ class Key_Figures_Dialog(QtGui.QDialog):
         super(Key_Figures_Dialog, self).__init__()
         self.ui = ui_key_figures.Ui_Dialog()
         self.ui.setupUi(self)
-        
+        locale.setlocale( locale.LC_ALL, '' )
         self.db = Database()
 
-        self.ui.label_4.setText(self.totalRevenue())
-        self.ui.label_5.setText(self.totalExpenditure())
+        self.ui.label_4.setText(locale.currency(float(self.totalRevenue())))
+        self.ui.label_5.setText(locale.currency(float(self.totalExpenditure())))
         self.ui.label_6.setText(self.totalNoEvents())
         
         self.ui.tableView.setModel(self.amountOfMail())
