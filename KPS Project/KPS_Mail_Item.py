@@ -161,7 +161,6 @@ class Mail_Item_Dialog(QtGui.QDialog):
         while True:
             row = self.cur.fetchone()
             if row == None:
-                print "no route"
                 break
             route.append(row[1]) #origin new_transport[0]
             route.append(row[2]) #destination  new_transport[1]
