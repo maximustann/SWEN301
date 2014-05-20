@@ -6,6 +6,7 @@ from PyQt4.QtGui import *;
 import KPS_Hub as hub;
 import KPS_TransportCostUpdate as transportCostUpdate;
 import KPS_Login as login;
+import KPS_TransportRoutes as TransportRoutes;
 import KPS_Key_Figures as KeyFigures;
 import KPS_TransportDiscontinued as TransportDiscontinued
 import KPS_Mail_Item as MailItem;
@@ -46,7 +47,7 @@ class KPS_MainWindow(QtGui.QMainWindow):
         self.ui.revisitAction.triggered.connect(self.clicked_bt_Revisit)      
         self.ui.transportAction.triggered.connect(self.clicked_bt_Transportcost)
         self.ui.discontinueAction.triggered.connect(self.clicked_bt_Discontinue)
-        
+        self.ui.routesAction.triggered.connect(self.clicked_bt_TransportRoutes)
         
        
         
@@ -77,15 +78,15 @@ class KPS_MainWindow(QtGui.QMainWindow):
         query = QtSql.QSqlQuery()
         query.exec_("select * from Cities")
         while query.next():
-            parent = QStandardItem(str(query.value(1)))
+            parent = QStandardItem(query.value(1).toString())
             innerQuery = QtSql.QSqlQuery()
-            innerQuery.exec_("select Name,Priority,PricePerGram,PricePerCC from CustomerRoutes a, Cities b where a.Origin = '" + str(query.value(0)) + "' and a.Destination = b.ID")
+            innerQuery.exec_("select Name,Priority,PricePerGram,PricePerCC from CustomerRoutes a, Cities b where a.Origin = '" + query.value(0).toString() + "' and a.Destination = b.ID")
             while innerQuery.next():
                 if str(innerQuery.value(0))  != '':
-                    childDestination = QStandardItem(str(innerQuery.value(0)))
-                    childPriority = QStandardItem(str(innerQuery.value(1)))
-                    childPPG = QStandardItem(str(locale.currency(innerQuery.value(2))))
-                    childPCC = QStandardItem(str(locale.currency(innerQuery.value(3))))
+                    childDestination = QStandardItem(innerQuery.value(0).toString())
+                    childPriority = QStandardItem(innerQuery.value(1).toString())
+                    childPPG = QStandardItem(locale.currency(float(innerQuery.value(2).toString())))
+                    childPCC = QStandardItem(locale.currency(float(innerQuery.value(3).toString())))
                     parent.appendRow([childDestination,childPriority,childPPG,childPCC])
             model.appendRow(parent) 
         self.ui.treeView.setFirstColumnSpanned(3, self.ui.treeView.rootIndex(), True)   
@@ -108,6 +109,13 @@ class KPS_MainWindow(QtGui.QMainWindow):
         Dialog.show()
         result = Dialog.exec_()
         self.loadTree();
+    
+    def clicked_bt_TransportRoutes(self):
+        Dialog = TransportRoutes.TransportRoutes_Dialog()
+        Dialog.show()
+        result = Dialog.exec_()
+        self.loadTree();
+
 
     def clicked_bt_Revisit(self):
         Dialog = RevisitBusinessEvents.RevistBusinessEvents_Dialog()
@@ -129,11 +137,13 @@ class KPS_MainWindow(QtGui.QMainWindow):
         Dialog = Routes.CustomerPriceUpdate_Dialog()
         Dialog.show()
         result = Dialog.exec_()
+        self.loadTree()
         
     def clicked_bt_Discontinue(self):
         Dialog = TransportDiscontinued.TransportDiscontinued_Dialog()
         Dialog.show()
         result = Dialog.exec_()
+        self.loadTree()
 
 if __name__ == '__main__':
          import sys        

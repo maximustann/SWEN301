@@ -89,8 +89,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 725, 21))
         self.menubar.setObjectName(_fromUtf8("menubar"))
-        self.menuHome = QtGui.QMenu(self.menubar)
-        self.menuHome.setObjectName(_fromUtf8("menuHome"))
         self.menuAdd_Hub = QtGui.QMenu(self.menubar)
         self.menuAdd_Hub.setObjectName(_fromUtf8("menuAdd_Hub"))
         MainWindow.setMenuBar(self.menubar)
@@ -109,7 +107,6 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.menuAdd_Hub.addAction(self.actionAdd_Route)
         self.menuAdd_Hub.addAction(self.actionAdd_Mail_Item)
         self.menuAdd_Hub.addAction(self.actionAdd_Company)
-        self.menubar.addAction(self.menuHome.menuAction())
         self.menubar.addAction(self.menuAdd_Hub.menuAction())
         
         self.routeAction = QtGui.QAction(QtGui.QIcon('Images/route.png'), 'Add Customer Route', MainWindow)
@@ -131,7 +128,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         
         self.addHubAction = QtGui.QAction(QtGui.QIcon('Images/addhub.png'), 'Add Hub', MainWindow)
         self.addHubAction.setShortcut('Ctrl+H')
-        self.addHubAction.setIconText('Add Hub')
+        self.addHubAction.setIconText('Add City')
         
         self.addMailAction = QtGui.QAction(QtGui.QIcon('Images/mailitem.png'), 'Mail Item', MainWindow)
         self.addMailAction.setShortcut('Ctrl+M')
@@ -139,7 +136,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         
         self.routesAction = QtGui.QAction(QtGui.QIcon('Images/routes.png'), 'Routes', MainWindow)
         self.routesAction.setShortcut('Ctrl+R')
-        self.routesAction.setIconText('View Routes')
+        self.routesAction.setIconText('Transport Routes')
         
         self.transportAction = QtGui.QAction(QtGui.QIcon('Images/transport.png'), 'Add Transport Route', MainWindow)
         self.transportAction.setShortcut('Ctrl+R')
@@ -149,7 +146,7 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.discontinueAction.setShortcut('Ctrl+R')
         self.discontinueAction.setIconText('Discontinue Route')
    
-        #self.exitAction.triggered.connect(self.parent.close)
+        self.exitAction.triggered.connect(self.parent.close)
         
         self.toolbar = QtGui.QToolBar(self.centralwidget)
         self.toolbar.addAction(self.exitAction)
@@ -194,9 +191,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
        # self.bt_MailItems.setText(_translate("MainWindow", "Mail Items", None))
         #self.bt_Companys.setText(_translate("MainWindow", "Companies", None))
        # self.bt_Reports.setText(_translate("MainWindow", "Reports", None))
-        self.menuHome.setTitle(_translate("MainWindow", "Home", None))
-        self.menuAdd_Hub.setTitle(_translate("MainWindow", "Actions", None))
-        self.actionAdd_Hub.setText(_translate("MainWindow", "Hubs", None))
+        self.menuAdd_Hub.setTitle(_translate("MainWindow", "Menu", None))
+        self.actionAdd_Hub.setText(_translate("MainWindow", "Cities", None))
         self.actionAdd_Route.setText(_translate("MainWindow", "Routes", None))
         self.actionAdd_Mail_Item.setText(_translate("MainWindow", "Mail Items", None))
         self.actionAdd_Company.setText(_translate("MainWindow", "Companys", None))

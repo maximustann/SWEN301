@@ -27,12 +27,16 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.resize(458, 408)
+        Dialog.setStyleSheet("background-color:rgb(8,129,2);Color: white;font-size:16px;")
+        self.label_Head = QtGui.QLabel(Dialog)
+        self.label_Head.setGeometry(QtCore.QRect(70, 0, 511, 41))
         self.buttonBox = QtGui.QDialogButtonBox(Dialog)
         self.buttonBox.setGeometry(QtCore.QRect(90, 350, 341, 32))
         self.buttonBox.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName(_fromUtf8("buttonBox"))
+        self.buttonBox.setStyleSheet("background-color:#dddddd;Color: black; font-size:12px;")
         self.label_6 = QtGui.QLabel(Dialog)
         self.label_6.setGeometry(QtCore.QRect(230, 190, 141, 20))
         self.label_6.setObjectName(_fromUtf8("label_6"))
@@ -86,6 +90,8 @@ class Ui_Dialog(object):
         self.horizontalLayout_4.addWidget(self.label_4)
         self.lineEdit_4 = QtGui.QLineEdit(self.widget3)
         self.lineEdit_4.setObjectName(_fromUtf8("lineEdit_4"))
+        self.lineEdit_3.setStyleSheet("background-color:white;Color: black; font-size:12px;")
+        self.lineEdit_4.setStyleSheet("background-color:white;Color: black; font-size:12px;")
         self.horizontalLayout_4.addWidget(self.lineEdit_4)
         self.widget4 = QtGui.QWidget(Dialog)
         self.widget4.setGeometry(QtCore.QRect(100, 140, 271, 31))
@@ -99,7 +105,16 @@ class Ui_Dialog(object):
         self.comboBox = QtGui.QComboBox(self.widget4)
         self.comboBox.setObjectName(_fromUtf8("comboBox"))
         self.horizontalLayout_5.addWidget(self.comboBox)
-
+        self.comboBox.setStyleSheet("background-color:white;Color: black; font-size:12px;")
+        self.comboBox_2.setStyleSheet("background-color:white;Color: black; font-size:12px;")
+        self.comboBox_3.setStyleSheet("background-color:white;Color: black; font-size:12px;")
+        font = QtGui.QFont()
+        font.setFamily(_fromUtf8("Segoe UI Light"))
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label_Head.setFont(font)
+        
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
@@ -112,7 +127,7 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "Weight:", None))
         self.label_4.setText(_translate("Dialog", "Volume:", None))
         self.label_5.setText(_translate("Dialog", "Priority", None))
-
+        self.label_Head.setText(_translate("Dialog", "Add Mail Item", None))
 
 if __name__ == "__main__":
     import sys

@@ -169,57 +169,63 @@ class Ui_Form(object):
   
         while query.next():
             recCount = recCount + 1
-            if query.value(2) != '':
+            if  query.value(2).toString() != '':
+                query_Origin = QtSql.QSqlQuery()
+                query_Origin.exec_("Select Name from Cities where ID = '" + query.value(2).toString() + "' LIMIT 1")
+                query_Origin.next()
                 modelInputItem = QtGui.QStandardItem("Origin")
-                modelInputValue = QtGui.QStandardItem(str(query.value(2)))
+                modelInputValue = QtGui.QStandardItem(query_Origin.value(0).toString())
                 modelView.appendRow([modelInputItem,modelInputValue])
-            if query.value(3) != '':
+            if  query.value(3).toString() != '':
+                query_Destination = QtSql.QSqlQuery()
+                query_Destination.exec_("Select Name from Cities where ID = '" + query.value(3).toString() + "' LIMIT 1")
+                query_Destination.next()
                 modelInputItem = QtGui.QStandardItem("Destination")
-                modelInputValue = QtGui.QStandardItem(str(query.value(3)))
+                modelInputValue = QtGui.QStandardItem(query_Destination.value(0).toString())
                 modelView.appendRow([modelInputItem,modelInputValue])    
-            if str(query.value(4)) != '':
+            if  query.value(4).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Weight")
-                modelInputValue = QtGui.QStandardItem(str(query.value(4)))
+                modelInputValue = QtGui.QStandardItem(query.value(4).toString())
                 modelView.appendRow([modelInputItem,modelInputValue])    
-            if str(query.value(5)) != '':
+            if  query.value(5).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Volume")
-                modelInputValue = QtGui.QStandardItem(str(query.value(5)))
+                modelInputValue = QtGui.QStandardItem(query.value(5).toString())
                 modelView.appendRow([modelInputItem,modelInputValue])     
-            if str(query.value(6)) != '':
+            if  query.value(6).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Time of Entry")
-                modelInputValue = QtGui.QStandardItem(str(query.value(6)))
+                modelInputValue = QtGui.QStandardItem(query.value(6).toString())
                 modelView.appendRow([modelInputItem,modelInputValue])
-            if str(query.value(7)) != '':
+            if  query.value(7).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Priority")
-                modelInputValue = QtGui.QStandardItem(str(query.value(7)))
+                modelInputValue = QtGui.QStandardItem(query.value(7).toString())
                 modelView.appendRow([modelInputItem,modelInputValue])
-            if str(query.value(8)) != '':
+            if query.value(8).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Price Per Gram")
-                modelInputValue = QtGui.QStandardItem(str(query.value(8)))
+                modelInputValue = QtGui.QStandardItem(query.value(8).toString())
                 modelView.appendRow([modelInputItem,modelInputValue])
-            if str(query.value(9)) != '':
+            if query.value(9).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Price Per CC")
-                modelInputValue = QtGui.QStandardItem(str(query.value(9)))
+                modelInputValue = QtGui.QStandardItem(query.value(9).toString())
                 modelView.appendRow([modelInputItem,modelInputValue]) 
-            if str(query.value(10)) != '':
+            if query.value(10).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Company")
-                modelInputValue = QtGui.QStandardItem(str(query.value(10)))
+                modelInputValue = QtGui.QStandardItem(query.value(10).toString())
                 modelView.appendRow([modelInputItem,modelInputValue])   
-            if str(query.value(11)) != '':
+            if query.value(11).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Transport Type")
-                modelInputValue = QtGui.QStandardItem(str(query.value(11)))
+                modelInputValue = QtGui.QStandardItem(query.value(11).toString())
                 modelView.appendRow([modelInputItem,modelInputValue]) 
-            if str(query.value(12)) != '':
+            if query.value(12).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Day of the Week")
-                modelInputValue = QtGui.QStandardItem(str(query.value(12)))
+                modelInputValue = QtGui.QStandardItem(query.value(12).toString())
                 modelView.appendRow([modelInputItem,modelInputValue]) 
-            if str(query.value(13)) != '':
+            if query.value(13).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Frequency")
-                modelInputValue = QtGui.QStandardItem(str(query.value(13)))
+                modelInputValue = QtGui.QStandardItem(query.value(13).toString())
                 modelView.appendRow([modelInputItem,modelInputValue]) 
-            if str(query.value(14)) != '':
+            if query.value(14).toString() != '':
                 modelInputItem = QtGui.QStandardItem("Duration")
-                modelInputValue = QtGui.QStandardItem(str(query.value(14)))
+                modelInputValue = QtGui.QStandardItem(query.value(14).toString())
                 modelView.appendRow([modelInputItem,modelInputValue]) 
         #modelInputValue = QtGui.QStandardItem('Value')
         # modelView.appendRow([modelInputItem,modelInputValue])
@@ -233,15 +239,13 @@ class Ui_Form(object):
         self.tb_EventViewer.setModel(modelView)
  
     def clicked_bt_Earlier(self):
-        if self.inWork:
-            self.eventSkip = self.eventSkip + 1
+        self.eventSkip = self.eventSkip + 1
         self.handleChanged(self.cb_EventType.currentText())
         
     def clicked_bt_Later(self):
-        if self.inWork:
-            if self.eventSkip > 0:
-                self.eventSkip = self.eventSkip - 1    
-                self.handleChanged(self.cb_EventType.currentText())
+        if self.eventSkip > 0:
+            self.eventSkip = self.eventSkip - 1    
+            self.handleChanged(self.cb_EventType.currentText())
         
 class Database:
     def __init__(self, parent = None):

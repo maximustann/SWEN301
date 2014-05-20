@@ -105,9 +105,9 @@ class Ui_wn_Hubs(object):
         QtCore.QMetaObject.connectSlotsByName(wn_Hubs)
 
     def retranslateUi(self, wn_Hubs):
-        wn_Hubs.setWindowTitle(_translate("wn_Hubs", "Hubs", None))
-        self.label.setText(_translate("wn_Hubs", "Current Hubs", None))
-        self.groupBox.setTitle(_translate("wn_Hubs", "Add New Hub", None))
-        self.label_2.setText(_translate("wn_Hubs", "Hub name", None))
-        self.bt_Add_Hub.setText(_translate("wn_Hubs", "Add Hub", None))
-        self.label_3.setText(_translate("wn_Hubs", "Add New Hub", None))
+        wn_Hubs.setWindowTitle(_translate("wn_Hubs", "Cities", None))
+        self.label.setText(_translate("wn_Hubs", "Current Cities", None))
+        self.groupBox.setTitle(_translate("wn_Hubs", "Add New City", None))
+        self.label_2.setText(_translate("wn_Hubs", "City Name", None))
+        self.bt_Add_Hub.setText(_translate("wn_Hubs", "Add City", None))
+        self.label_3.setText(_translate("wn_Hubs", "Add New City", None))

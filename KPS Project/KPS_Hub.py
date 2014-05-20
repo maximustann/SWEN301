@@ -23,7 +23,7 @@ class Hub_Dialog(QtGui.QDialog):
         query = QtSql.QSqlQuery()
         query.exec_("Select * from Cities order by Name")
         while query.next():
-                modelValue = QtGui.QStandardItem(str(query.value(1)))
+                modelValue = QtGui.QStandardItem(query.value(1).toString())
                 modelView.appendRow(modelValue)
         self.ui.listView.setModel(modelView)   
         
