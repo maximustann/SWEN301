@@ -4,40 +4,44 @@ Created on 17/05/2014
 @author: Nick
 '''
 import unittest
-import BusinessEventHandler
+import Validation
 
 class TestTransportCostUpdate(unittest.TestCase):
 
-    # successful transport cost update
-    def testUpdateTransportCost001(self):
-        cUD = BusinessEventHandler.TransportCostData("Auckland","Croatia", 1.20, 2.50, "Nick McNeil Airways", "Air", "Sunday", 3, 2.0)
-        errorMessages = cUD.validate()
-        assert(len(errorMessages) == 0),errorMessages       
+    # Successfully updated transport cost
+    def testTransportCostUpdate001(self):
+        event = {"Origin": 1,"Destination": 2, "Priority": 2,"PricePerGram": 5,"PricePerCC": 4, "Company": "Nick McNeil Airways",
+                 "TransportType": "Air","DayOfWeek": 6, "Frequency": 54,"Duration": 3}
+        errorMessages = Validation.validate(event)
+        assert(len(errorMessages) == 0),errorMessages            
         
-    # invalid data
-    def testUpdateTransportCost002(self):
-        invalidData = [BusinessEventHandler.TransportCostData("Auckland","Auckland", 1.20, 2.50, "Nick McNeil Airways", "Air", "Sunday", 3, 2.0),
-                       BusinessEventHandler.TransportCostData(1,"Croatia", 1.20, 2.50, "Nick McNeil Airways", "Air", "Sunday", 3, 2.0),
-                       BusinessEventHandler.TransportCostData("Auckland", 5.0, 1.20, 2.50, "Nick McNeil Airways", "Air", "Sunday", 3, 2.0),
-                       BusinessEventHandler.TransportCostData("Auckland","Croatia", "abc", 2.50, "Nick McNeil Airways", "Air", "Sunday", 3, 2.0),
-                       BusinessEventHandler.TransportCostData("Auckland","Croatia", 1.20, 'd', "Nick McNeil Airways", "Air", "Sunday", 3, 2.0),
-                       BusinessEventHandler.TransportCostData("Auckland","Croatia", 1.20, 2.50, 123, "Air", "Sunday", 3, 2.0),
-                       BusinessEventHandler.TransportCostData("Auckland","Croatia", 1.20, 2.50, "Nick McNeil Airways", 4, "Sunday", 3, 2.0),
-                       BusinessEventHandler.TransportCostData("Auckland","Croatia", 1.20, 2.50, "Nick McNeil Airways", "Air", 123, 3, 2.0),
-                       BusinessEventHandler.TransportCostData("Auckland","Croatia", 1.20, 2.50, "Nick McNeil Airways", "Air", 123, "def", 2.0),
-                       BusinessEventHandler.TransportCostData("Auckland","Croatia", 1.20, 2.50, "Nick McNeil Airways", "Air", 123, 3, "ghi"),]
+    # Invalid format
+    def testTransportCostUpdate002a(self):
+        event = {"Origin":"abc","Destination": "def", "Priority": "ghi","PricePerGram": "jkl","PricePerCC": "mno", "Company": 7,
+                 "TransportType": 1,"DayOfWeek": "pqr", "Frequency": "stu","Duration": "vwx"}
 
-        for data in invalidData:
-            errorMessages = data.validate()
-            assert(len(errorMessages) != 0), errorMessages   
-            
-    # cannot connect to route database
-    def testUpdateTransportCost003(self):
-        print("")  
+        errorMessages = Validation.validate(event)
+        assert(len(errorMessages) == 10), errorMessages   
+    
+    # Values out of range
+    def testTransportCostUpdate002b(self):
+        event = {"Origin": 3,"Destination": 4, "Priority": 8,"PricePerGram": 0,"PricePerCC": -4.60, "Company": "Nick McNeil Airways",
+                 "TransportType": "Air","DayOfWeek": 8, "Frequency": 0,"Duration": -10}
         
-    # no routes available to delete
-    def testUpdateTransportCost004(self):
-        print("")  
+        errorMessages = Validation.validate(event)
+        assert(len(errorMessages) == 6), errorMessages 
+        
+    # Origin cannot equal destination
+    def testTransportCostUpdate002c(self):
+        event = {"Origin": 5,"Destination": 5, "Priority": 2,"PricePerGram": 5,"PricePerCC": 4, "Company": "Nick McNeil Airways",
+                 "TransportType": "Air","DayOfWeek": 6, "Frequency": 54,"Duration": 3}
+
+        errorMessages = Validation.validate(event)
+        assert(len(errorMessages) == 1), errorMessages  
+        
+    # Cannot access route database
+    def testTransportCostUpdate003(self):
+        print("")
 
 
 def suite():

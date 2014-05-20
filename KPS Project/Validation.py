@@ -66,6 +66,22 @@ def validate(eventDict):
         # check greater than zero
         elif not(float(eventDict.get("PricePerCC")) > 0):
             errorMessages.append("PricePerCC must be greater than zero");
+            
+    if(eventDict.get("Weight") != None):
+        # check correct format
+        if not (valueToFloat(eventDict.get("Weight"))):
+            errorMessages.append("Weight not in real format");
+        # check greater than zero
+        elif not(float(eventDict.get("Weight")) > 0):
+            errorMessages.append("Weight must be greater than zero");
+           
+    if(eventDict.get("Volume") != None):
+        # check correct format
+        if not (valueToFloat(eventDict.get("Volume"))):
+            errorMessages.append("Volume not in real format");
+        # check greater than zero
+        elif not(float(eventDict.get("Volume")) > 0):
+            errorMessages.append("Volume must be greater than zero");
            
     if(eventDict.get("Company") != None):
         # check correct format
@@ -77,7 +93,7 @@ def validate(eventDict):
         if not (isinstance(eventDict.get("TransportType"), str)):
             errorMessages.append("TransportType not in string format");
         
-        elif not(eventDict.get("TransportType") != "Air" or eventDict.get("TransportType") != "Land" or eventDict.get("TransportType") != "Sea"):
+        elif (eventDict.get("TransportType") != "Air" and eventDict.get("TransportType") != "Land" and eventDict.get("TransportType") != "Sea"):
             errorMessages.append("TransportType must be either Air, Land, or Sea")
            
     if(eventDict.get("DayOfWeek") != None):
