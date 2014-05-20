@@ -249,21 +249,26 @@ class Mail_Item_Dialog(QtGui.QDialog):
 
                     hours = self._analyse_hour(self.mail.entrytime + duration * 3600)
                     waiting_time = self._calculate_waiting_time(hours, weekday, deliverday, frequency)
-                    duration += waiting_time + trans_duration
+                    if waiting_time != None:
+                        duration += waiting_time + trans_duration
         return duration
 
     def _calculate_waiting_time(self, hours, weekday, deliverday, frequency):
         if weekday == deliverday:
             if hours < 7:
+                #print 7 - hours
                 return (7 - hours) 
             else:
-                for i in range((24 - 7) / frequency):
+                for i in range(int((24 - 7) / frequency)):
                     if 7 + frequency * i - hours > 0:
+                       # print 7 + frequency * i - hours
                         return 7 + frequency * i - hours
                 
         elif weekday > deliverday:
+           # print (24 - hours) + (7 - (weekday - deliverday) - 2) * 24 + 7
             return (24 - hours) + (7 - (weekday - deliverday) - 2) * 24 + 7
         else:
+           # print (24 - hours) + (deliverday - weekday - 1) * 24 + 7
             return (24 - hours) + (deliverday - weekday - 1) * 24 + 7
 
     def _analyse_week(self, entrytime):
