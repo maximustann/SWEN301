@@ -26,7 +26,7 @@ def validate(eventDict):
             errorMessages.append("Weight not in real format");
             
         # check greater than zero
-        if not(float(eventDict.get("Weight")) > 0):
+        elif not(float(eventDict.get("Weight")) > 0):
             errorMessages.append("Weight must be greater than zero");
 
     if(eventDict.get("Volume") != None):
@@ -35,7 +35,7 @@ def validate(eventDict):
             errorMessages.append("Volume not in real format");
             
         # check greater than zero
-        if not(float(eventDict.get("Volume")) > 0):
+        elif not(float(eventDict.get("Volume")) > 0):
             errorMessages.append("Volume must be greater than zero");
            
     if(eventDict.get("TimeOfEntry") != None):
@@ -66,22 +66,6 @@ def validate(eventDict):
         # check greater than zero
         elif not(float(eventDict.get("PricePerCC")) > 0):
             errorMessages.append("PricePerCC must be greater than zero");
-            
-    if(eventDict.get("Weight") != None):
-        # check correct format
-        if not (valueToFloat(eventDict.get("Weight"))):
-            errorMessages.append("Weight not in real format");
-        # check greater than zero
-        elif not(float(eventDict.get("Weight")) > 0):
-            errorMessages.append("Weight must be greater than zero");
-           
-    if(eventDict.get("Volume") != None):
-        # check correct format
-        if not (valueToFloat(eventDict.get("Volume"))):
-            errorMessages.append("Volume not in real format");
-        # check greater than zero
-        elif not(float(eventDict.get("Volume")) > 0):
-            errorMessages.append("Volume must be greater than zero");
            
     if(eventDict.get("Company") != None):
         # check correct format

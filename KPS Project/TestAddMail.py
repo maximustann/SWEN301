@@ -4,28 +4,28 @@
 import unittest
 import Validation
 
-class TestMail(unittest.TestCase):
+class TestAddMail(unittest.TestCase):
 
     # Successfully added mail request
-    def testUpdateCustomerPrice001(self):
+    def testAddMail001(self):
         event = {"Origin": 3,"Destination": 2, "Weight": 1.00,"Volume": 2.00,"Priority": 2}
         errorMessages = Validation.validate(event)
         assert(len(errorMessages) == 0),errorMessages          
 
     # Invalid format
-    def testUpdateCustomerPrice002a(self):
-        event = {"Origin": 'za',"Destination": 'az', "Weight": "2.0","Volume": "123","Priority": 'x'}
+    def testAddMail002a(self):
+        event = {"Origin": 'za',"Destination": 'az', "Weight": "_ab_","Volume": "1a2b3c","Priority": 'x'}
         errorMessages = Validation.validate(event)
         assert(len(errorMessages) == 5), errorMessages   
     
     # Values out of range
-    def testUpdateCustomerPrice002b(self):
+    def testAddMail002b(self):
         event = {"Origin": 3,"Destination": 2, "Weight": 0,"Volume": 0,"Priority": 0}
         errorMessages = Validation.validate(event)
         assert(len(errorMessages) == 3), errorMessages 
         
     # Origin cannot equal destination
-    def testUpdateCustomerPrice002c(self):
+    def testAddMail002c(self):
         event = {"Origin": 3,"Destination": 3, "Weight": 5.00,"Volume": 5.00,"Priority": 1}
         errorMessages = Validation.validate(event)
         assert(len(errorMessages) == 1), errorMessages  
