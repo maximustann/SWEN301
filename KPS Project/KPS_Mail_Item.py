@@ -27,8 +27,6 @@ class Mail_Item_Dialog(QtGui.QDialog):
         self.setDestination()
         self.init_destination()
 
-
-
     def connect(self):
         try:
             self.conn = lite.connect("../Database/Business.db")
@@ -108,14 +106,16 @@ class Mail_Item_Dialog(QtGui.QDialog):
     def getValue(self):
         origin = self.ui.comboBox_4.currentText()
         destination = self.ui.comboBox_2.currentText()
-        print destination
         priority = self.ui.comboBox_3.currentText()
         weight = self.ui.lineEdit_3.text()
         volume = self.ui.lineEdit_4.text()
         entrytime = time.time()
+        sql = str("SELECT ID from Priorities where priority=\"" + priority + "\"")
+        self.cur.execute(sql)
+        row = self.cur.fetchone()
         self.mail = mail_item.Mail_Item(
                     origin,
-                    priority,
+                    row[0], #priority
                     destination,
                     weight,
                     volume,
@@ -124,30 +124,75 @@ class Mail_Item_Dialog(QtGui.QDialog):
         self.trans()
         self.transport_cost()
         self.construct_graph()
+        self.mail.delivertime = self.cal_duration()
+        if self.costclient() == -1:
+            return -1
         return self.mail
 
+    def handle_mail(self):
+        if self.getValue() != -1:
+            self.add_to_db_mail()
+        else:
+            print "customer route does not exist"
+            return -1
+    def add_to_db_mail(self):
+        print str(self.mail.origin),str(self.mail.destination),str(self.mail.costkps),str(self.mail.costclient),str(self.mail.priority),str(self.mail.volume),str(self.mail.weight),str(self.mail.entrytime),str(self.mail.delivertime)
+        sql = str("INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(" + str(self.mail.origin) + "," +
+                                                    str(self.mail.destination) + "," +
+                                                    str(self.mail.costkps) + "," +
+                                                    str(self.mail.costclient) + "," +
+                                                    str(self.mail.priority) + "," +
+                                                    str(self.mail.volume) + "," +
+                                                    str(self.mail.weight) + "," +
+                                                    str(self.mail.entrytime) + "," +
+                                                    str(self.mail.delivertime) + ")")
+        self.cur.execute(sql)
+        row = self.cur.fetchone()
+        self.conn.commit()        
+       
     def transport_cost(self):
+        if self.mail.priority == 1:
+            sql = str("SELECT * from TransportRoutes WHERE TransportType='Land' OR TransportType='Sea'")
+        else:
+            sql = str("SELECT * from TransportRoutes WHERE TransportType='Air'")
         route = []
         self.transport = []
-        sql = str("SELECT * from TransportRoutes")
         self.cur.execute(sql)
         while True:
             row = self.cur.fetchone()
             if row == None:
+                print "no route"
                 break
-            route.append(row[1]) #origin
-            route.append(row[2]) #destination
-            route.append(row[3]) #company
-            route.append(row[4]) #transportType
-            route.append(row[5]) #deliverDay
+            route.append(row[1]) #origin new_transport[0]
+            route.append(row[2]) #destination  new_transport[1]
+            route.append(row[3]) #company new_transport[2]
+            route.append(row[4]) #transportType new_transport[3]
+            route.append(row[5]) #deliverDay new_transport[4]
             cost = row[6] * float(self.mail.weight)
             cost += row[7] * float(self.mail.volume)
-            route.append(cost)  #Pricegram * weight + PriceCC * volume
-            route.append(row[9]) #duration
+            route.append(cost)  #Pricegram * weight + PriceCC * volume new_transport[5]
+            route.append(row[8]) #frequency new_transport[6]
+            route.append(row[9]) #duration new_transport[7]
             self.transport.append(route)
             route = []
         self.trans_filter()
+        #print self.transport
+        #print self.new_transport
 
+    def costclient(self):
+        #print str(self.mail.origin), str(self.mail.destination), str(row[0])
+        sql = str("SELECT * FROM  CustomerRoutes WHERE Origin=\"" + str(self.mail.origin) +
+                    "\" AND Destination=\"" + str(self.mail.destination) + "\" AND Priority=\"" +
+                    str(self.mail.priority) + "\"")
+        self.cur.execute(sql)
+        row = self.cur.fetchone()
+        if(row == None):
+            print("No Customer Route!!")
+            return -1
+        cost = row[4] * float(self.mail.weight) + row[5] * float(self.mail.volume)
+        self.mail.costclient = cost
+
+    #also count costKPS
     def construct_graph(self):
         self.G = {}
         raw_data = []
@@ -166,47 +211,77 @@ class Mail_Item_Dialog(QtGui.QDialog):
         self.path = dij.shortestPath(self.G, self.mail.origin, self.mail.destination)
         for i in range(len(self.path) - 1):
             charge += self.G[self.path[i]][self.path[i + 1]]
-
-        self.mail.costKPS = charge
-        print self.cal_duration()
+        #print "charge us=", charge
+        self.mail.costkps = charge
 
     def cal_duration(self):
         duration = 0
         for i in range(len(self.path) - 1):
+            #looking for the route in new_tranport
             for j in range(len(self.new_transport)):
-                if (self.new_transport[j][0] == self.path[i]) and (self.new_transport[j][1] == self.path[i + 1]):
-                    print self.new_transport[j][7]
-                    duration += self.new_transport[j][7]
+                if self.new_transport[j][0] == self.path[i] and self.new_transport[j][1] == self.path[i + 1]:
+                    
+                    weekday = self._analyse_week(self.mail.entrytime + duration * 3600)
+                    deliverday = self.new_transport[j][4]
+                    trans_duration = self.new_transport[j][7]
+                    frequency = self.new_transport[j][6]
+
+                    hours = self._analyse_hour(self.mail.entrytime + duration * 3600)
+                    waiting_time = self._calculate_waiting_time(hours, weekday, deliverday, frequency)
+                    duration += waiting_time + trans_duration
         return duration
+
+    def _calculate_waiting_time(self, hours, weekday, deliverday, frequency):
+        if weekday == deliverday:
+            if hours < 7:
+                return (7 - hours) 
+            else:
+                for i in range((24 - 7) / frequency):
+                    if 7 + frequency * i - hours > 0:
+                        return 7 + frequency * i - hours
+                
+        elif weekday > deliverday:
+            return (24 - hours) + (7 - (weekday - deliverday) - 2) * 24 + 7
+        else:
+            return (24 - hours) + (deliverday - weekday - 1) * 24 + 7
+
+    def _analyse_week(self, entrytime):
+        return int(time.strftime("%w", time.localtime(entrytime))) + 1
+
+    def _analyse_hour(self, entrytime):
+        return int(time.strftime("%H", time.localtime(entrytime)))
 
     def trans_filter(self):
         self.new_transport = []
         temp = None
         i = 0
         while True:
-            if i > len(self.transport) - 2:
+            if i >= len(self.transport) - 1:
+                if temp != None:
+                    self.new_transport.append(temp)
                 break
             if temp == None:
+                print self.transport[i + 1][0]
                 if (self.transport[i][0] == self.transport[i + 1][0]) and (self.transport[i][1] == self.transport[i + 1][1]):
                     if self.transport[i][5] >= self.transport[i + 1][5]:
-                        temp = self.transport[i]
-                        i += 1
-                    else:
                         temp = self.transport[i + 1]
+                        i += 2
+                    else:
+                        temp = self.transport[i]
                         i += 1
                 else:
                     self.new_transport.append(self.transport[i])
                     i += 1
             else:
                 if (self.transport[i][0] == temp[0]) and (self.transport[i][1] == temp[1]):
-                    if self.transport[i][5] >= temp[5]:
+                    if self.transport[i][5] < temp[5]:
                         temp = self.transport[i]
-                        i += 1
+                        i += 2
                     else:
-                        i += 1
+                        i += 2
                 else:
                     self.new_transport.append(temp)
-                    temp = None
+                    temp = self.transport[i]
                     i += 1
 '''
     def change_types(self):
