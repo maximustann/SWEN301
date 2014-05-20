@@ -16,25 +16,25 @@ def getTotalRevenue():
     return total
     
 def getTotalExpenditure():
-    conn = sqlite3.connect("Business.db")
+    conn = sqlite3.connect("../Database/Business.db")
     conn.text_factory = str
     c = conn.cursor()
     c.execute('SELECT sum(costKPS) FROM mail')
-    total = c.fetch()
+    total = c.fetchone()
     conn.close()
     return total
     
 def getTotalNumberOfEvents():
-    conn = sqlite3.connect("Business.db")
+    conn = sqlite3.connect("../Database/Business.db")
     conn.text_factory = str
     c = conn.cursor()
     c.execute('SELECT count(*) FROM BusinessEvents')
-    total = c.fetch()
+    total = c.fetchone()
     conn.close()
     return total
     
 def getTotalMail():
-    conn = sqlite3.connect("Business.db")
+    conn = sqlite3.connect("../Database/Business.db")
     conn.text_factory = str
     c = conn.cursor()
     c.execute('''SELECT origin, destination, sum(volume), sum(weight), count(*)
@@ -45,7 +45,7 @@ def getTotalMail():
     return mails
     
 def getAverageDeliveryTimes():
-    conn = sqlite3.connect("Business.db")
+    conn = sqlite3.connect("../Database/Business.db")
     conn.text_factory = str
     c = conn.cursor()
     c.execute('''select origin, destination, priority, avg(DeliveryTime)
@@ -56,7 +56,6 @@ def getAverageDeliveryTimes():
     return times
 
 
-print getTotalRevenue()
 
     
     
