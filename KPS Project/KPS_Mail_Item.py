@@ -16,7 +16,7 @@ class Mail_Item_Dialog(QtGui.QDialog):
         self.ui.setupUi(self)
         self.ui.buttonBox.accepted.connect(self.accept)
         self.ui.buttonBox.rejected.connect(self.reject)
-        self.ui.comboBox_4.currentIndexChanged.connect(self.change_destination)
+        self.ui.comboBox_3.currentIndexChanged.connect(self.change_destination)
         self.conn = None
         self.cur = None
         self.history_city = None
@@ -27,6 +27,27 @@ class Mail_Item_Dialog(QtGui.QDialog):
         self.setDestination()
         self.init_destination()
 
+    def accept(self):
+        self.ui.label_6.setStyleSheet("color: red")
+        self.ui.label_7.setStyleSheet("color: red")
+        if self.ui.lineEdit_3.text() == "":
+            self.ui.label_6.setText("input weight")
+            if self.ui.lineEdit_4.text() == "":
+                self.ui.label_7.setText("input volume")
+            else:
+                self.ui.label_7.setText("")
+
+        if self.ui.lineEdit_4.text() == "":
+            self.ui.label_7.setText("input volume")
+            if self.ui.lineEdit_3.text() == "":
+                self.ui.label_6.setText("input weight")
+            else:
+                self.ui.label_6.setText("")
+
+        if self.ui.lineEdit_3.text() != "" and self.ui.lineEdit_4.text() != "":
+            self.ui.label_6.setText("")
+            self.ui.label_7.setText("")
+            super(Mail_Item_Dialog, self).accept()
     def connect(self):
         try:
             self.conn = lite.connect("../Database/Business.db")
@@ -35,14 +56,14 @@ class Mail_Item_Dialog(QtGui.QDialog):
             sys.exit(1)
 
     def init_destination(self):
-        origin_city = self.ui.comboBox_4.currentText()
+        origin_city = self.ui.comboBox_3.currentText()
         dest_city = self.ui.comboBox_2.findText(origin_city)
         if dest_city != -1:
             self.ui.comboBox_2.removeItem(dest_city)
             self.history_city = origin_city
 
     def change_destination(self):
-        origin_city = self.ui.comboBox_4.currentText()
+        origin_city = self.ui.comboBox_3.currentText()
         if self.history_city == None:
             dest_city = self.ui.comboBox_2.findText(origin_city)
             if dest_city != -1:
@@ -60,14 +81,14 @@ class Mail_Item_Dialog(QtGui.QDialog):
             row = self.cur.fetchone()
             if row == None:
                 break
-            self.ui.comboBox_3.addItem(row[0])
+            self.ui.comboBox.addItem(row[0])
     def setOrigin(self):
         self.cur.execute("SELECT name from Cities")
         while True:
             row = self.cur.fetchone()
             if row == None:
                 break
-            self.ui.comboBox_4.addItem(row[0])
+            self.ui.comboBox_3.addItem(row[0])
     '''        
     def setTransportType(self):
         self.cur.execute("SELECT Type from TransportTypes")
@@ -104,9 +125,9 @@ class Mail_Item_Dialog(QtGui.QDialog):
         else:
             self.mail.destination = row[0]
     def getValue(self):
-        origin = self.ui.comboBox_4.currentText()
+        origin = self.ui.comboBox_3.currentText()
         destination = self.ui.comboBox_2.currentText()
-        priority = self.ui.comboBox_3.currentText()
+        priority = self.ui.comboBox.currentText()
         weight = self.ui.lineEdit_3.text()
         volume = self.ui.lineEdit_4.text()
         entrytime = time.time()
@@ -122,7 +143,8 @@ class Mail_Item_Dialog(QtGui.QDialog):
                     entrytime
                )
         self.trans()
-        self.transport_cost()
+        if self.transport_cost() == -1:
+            return -1
         self.construct_graph()
         self.mail.delivertime = self.cal_duration()
         if self.costclient() == -1:
@@ -133,10 +155,9 @@ class Mail_Item_Dialog(QtGui.QDialog):
         if self.getValue() != -1:
             self.add_to_db_mail()
         else:
-            print "customer route does not exist"
+            print("customer route does not exist")
             return -1
     def add_to_db_mail(self):
-        print str(self.mail.origin),str(self.mail.destination),str(self.mail.costkps),str(self.mail.costclient),str(self.mail.priority),str(self.mail.volume),str(self.mail.weight),str(self.mail.entrytime),str(self.mail.delivertime)
         sql = str("INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(" + str(self.mail.origin) + "," +
                                                     str(self.mail.destination) + "," +
                                                     str(self.mail.costkps) + "," +
@@ -152,7 +173,7 @@ class Mail_Item_Dialog(QtGui.QDialog):
        
     def transport_cost(self):
         if self.mail.priority == 1:
-            sql = str("SELECT * from TransportRoutes WHERE TransportType='Land' OR TransportType='Sea'")
+            sql = str("SELECT * from TransportRoutes")
         else:
             sql = str("SELECT * from TransportRoutes WHERE TransportType='Air'")
         route = []
@@ -174,7 +195,8 @@ class Mail_Item_Dialog(QtGui.QDialog):
             route.append(row[9]) #duration new_transport[7]
             self.transport.append(route)
             route = []
-        self.trans_filter()
+        if self.trans_filter() == -1:
+            return -1
         #print self.transport
         #print self.new_transport
 
@@ -251,16 +273,21 @@ class Mail_Item_Dialog(QtGui.QDialog):
         return int(time.strftime("%H", time.localtime(entrytime)))
 
     def trans_filter(self):
+        if(len(self.transport) == 0):
+            print("no transport route")
+            return -1
         self.new_transport = []
         temp = None
         i = 0
+        #print "size of transport", len(self.transport)
         while True:
             if i >= len(self.transport) - 1:
                 if temp != None:
                     self.new_transport.append(temp)
+                if self.transport[i] != None:
+                    self.new_transport.append(self.transport[i])
                 break
             if temp == None:
-                print self.transport[i + 1][0]
                 if (self.transport[i][0] == self.transport[i + 1][0]) and (self.transport[i][1] == self.transport[i + 1][1]):
                     if self.transport[i][5] >= self.transport[i + 1][5]:
                         temp = self.transport[i + 1]
@@ -282,29 +309,6 @@ class Mail_Item_Dialog(QtGui.QDialog):
                     self.new_transport.append(temp)
                     temp = self.transport[i]
                     i += 1
-'''
-    def change_types(self):
-        if(self.ui.comboBox_3.currentText() == '2'):
-            air = self.ui.comboBox.findText("Air")
-            if air != -1:
-                self.ui.comboBox.removeItem(air)
-            land = self.ui.comboBox.findText("Land")
-            if land == -1:
-                self.ui.comboBox.addItem("Land")
-            sea = self.ui.comboBox.findText("Sea")
-            if sea == -1:
-                self.ui.comboBox.addItem("Sea")
-        if(self.ui.comboBox_3.currentText() == '1'):
-            land = self.ui.comboBox.findText("Land")
-            if land != -1:
-                self.ui.comboBox.removeItem(land)
-            sea = self.ui.comboBox.findText("Sea")
-            if sea != -1:
-                self.ui.comboBox.removeItem(sea)
-            air = self.ui.comboBox.findText("Air")
-            if air == -1:
-                self.ui.comboBox.addItem("Air")
-'''
  
 if __name__ == "__main__":
     import sys
