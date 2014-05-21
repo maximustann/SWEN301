@@ -197,7 +197,7 @@ class Mail_Item_Dialog(QtGui.QDialog):
             route = []
         if self.trans_filter() == -1:
             return -1
-        #print self.transport
+        print self.transport
         #print self.new_transport
 
     def costclient(self):
@@ -289,8 +289,11 @@ class Mail_Item_Dialog(QtGui.QDialog):
             if i >= len(self.transport) - 1:
                 if temp != None:
                     self.new_transport.append(temp)
-                if self.transport[i] != None:
-                    self.new_transport.append(self.transport[i])
+                    try:
+                        if self.transport[i] != None:
+                            self.new_transport.append(self.transport[i])
+                    except IndexError:
+                        pass
                 break
             if temp == None:
                 if (self.transport[i][0] == self.transport[i + 1][0]) and (self.transport[i][1] == self.transport[i + 1][1]):
@@ -307,9 +310,9 @@ class Mail_Item_Dialog(QtGui.QDialog):
                 if (self.transport[i][0] == temp[0]) and (self.transport[i][1] == temp[1]):
                     if self.transport[i][5] < temp[5]:
                         temp = self.transport[i]
-                        i += 2
+                        i += 1
                     else:
-                        i += 2
+                        i += 1
                 else:
                     self.new_transport.append(temp)
                     temp = self.transport[i]
