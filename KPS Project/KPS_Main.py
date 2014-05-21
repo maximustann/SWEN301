@@ -24,17 +24,22 @@ class Database:
 
 class KPS_MainWindow(QtGui.QMainWindow):
     def __init__(self):
-        '''
+
         user = self.login()
         if user == None:
             sys.exit(-1)
-        '''
+        
         self.db = Database()
         super(KPS_MainWindow, self).__init__()
+        
         self.ui = ui_main.Ui_MainWindow(self)
         self.ui.setupUi(self)
         locale.setlocale( locale.LC_ALL, '' )
-
+        if user==0:
+            self.ui.keyBusinessAction.setEnabled(0)
+            self.ui.revisitAction.setEnabled(0)
+            self.ui.actionAdd_History.setEnabled(0)
+            self.ui.actionAdd_KeyFigures.setEnabled(0)
 
   
         #self.ui.bt_hubs.clicked.connect(self.clicked_bt_Hubs)
@@ -49,8 +54,14 @@ class KPS_MainWindow(QtGui.QMainWindow):
         self.ui.discontinueAction.triggered.connect(self.clicked_bt_Discontinue)
         self.ui.routesAction.triggered.connect(self.clicked_bt_TransportRoutes)
         
-       
-        
+        self.ui.actionAdd_Mail_Item.triggered.connect(self.clicked_bt_MailItem)
+        self.ui.actionAdd_Hub.triggered.connect(self.clicked_bt_Hubs)
+        self.ui.actionAdd_TransportRoute.triggered.connect(self.clicked_bt_Transportcost)
+        self.ui.actionAdd_CustomerRoute.triggered.connect(self.clicked_bt_Routes)
+        self.ui.actionAdd_History.triggered.connect(self.clicked_bt_Revisit)
+        self.ui.actionAdd_KeyFigures.triggered.connect(self.clicked_bt_keyBusiness)
+        self.ui.actionAdd_ViewRoutes.triggered.connect(self.clicked_bt_TransportRoutes)
+        self.ui.actionAdd_DiscontinueRoutes.triggered.connect(self.clicked_bt_Discontinue)
         self.loadTree()
         
        # parent1 = QStandardItem('Auckland')
@@ -92,11 +103,12 @@ class KPS_MainWindow(QtGui.QMainWindow):
         self.ui.treeView.setFirstColumnSpanned(3, self.ui.treeView.rootIndex(), True)   
         
     def login(self):
-        Dialog = login.My_Dialog()
+        Dialog = login.Login_Dialog()
         Dialog.show()
         result = Dialog.exec_()
         if result == 1:
             return Dialog.get_value()
+        
    
     def clicked_bt_Hubs(self):
         Dialog = hub.Hub_Dialog()     
