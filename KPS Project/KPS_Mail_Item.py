@@ -154,9 +154,21 @@ class Mail_Item_Dialog(QtGui.QDialog):
     def handle_mail(self):
         if self.getValue() != -1:
             self.add_to_db_mail()
+            self.add_to_db_business()
         else:
             print("customer route does not exist")
             return -1
+    def add_to_db_business(self):
+        sql = str("INSERT INTO BusinessEvents(EventTypeID, Origin, Destination, Weight, Volume, TimeOfEntry, Priority, Duration) VALUES(4, " + str(self.mail.origin) + "," + 
+                str(self.mail.destination) + "," +
+                str(self.mail.weight) + "," +
+                str(self.mail.volume) + "," +
+                str(self.mail.entrytime) + "," +
+                str(self.mail.priority) + "," +
+                str(self.mail.delivertime) + ")")
+        self.cur.execute(sql)
+        self.conn.commit()
+
     def add_to_db_mail(self):
         sql = str("INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(" + str(self.mail.origin) + "," +
                                                     str(self.mail.destination) + "," +
@@ -168,7 +180,6 @@ class Mail_Item_Dialog(QtGui.QDialog):
                                                     str(self.mail.entrytime) + "," +
                                                     str(self.mail.delivertime) + ")")
         self.cur.execute(sql)
-        row = self.cur.fetchone()
         self.conn.commit()        
        
     def transport_cost(self):
@@ -317,7 +328,6 @@ class Mail_Item_Dialog(QtGui.QDialog):
                     self.new_transport.append(temp)
                     temp = self.transport[i]
                     i += 1
- 
 if __name__ == "__main__":
     import sys
     app = QtGui.QApplication(sys.argv)
