@@ -39,7 +39,7 @@ class TransportCostUpdate_Dialog(QtGui.QDialog):
         Duration = self.ui.tb_Duration.text())
         messages =EH.insertTransportCost(costUpdate)
         if len(messages)==0:
-            self.ui.errorLabel.setStyleSheet("color: green")
+            self.ui.errorLabel.setStyleSheet("color: white")
             self.ui.errorLabel.setText('Update Complete')
             self.updateDisplayedRoutes()
         else:

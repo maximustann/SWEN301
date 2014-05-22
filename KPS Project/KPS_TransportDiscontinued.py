@@ -42,7 +42,7 @@ class TransportDiscontinued_Dialog(QtGui.QDialog):
             )
             messages = EH.discontinueTransport(tdD)
             if len(messages)==0:
-                self.ui.errorLabel.setStyleSheet("color: green")
+                self.ui.errorLabel.setStyleSheet("color: white")
                 self.ui.errorLabel.setText('Update Complete')
                 self.updateDisplayedRoutes()
             else:
