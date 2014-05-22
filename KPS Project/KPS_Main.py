@@ -36,10 +36,9 @@ class KPS_MainWindow(QtGui.QMainWindow):
         self.ui.setupUi(self)
         locale.setlocale( locale.LC_ALL, '' )
         if user==0:
-            self.ui.keyBusinessAction.setEnabled(0)
             self.ui.revisitAction.setEnabled(0)
             self.ui.actionAdd_History.setEnabled(0)
-            self.ui.actionAdd_KeyFigures.setEnabled(0)
+
 
   
         #self.ui.bt_hubs.clicked.connect(self.clicked_bt_Hubs)
