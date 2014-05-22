@@ -116,10 +116,10 @@ class Ui_MainWindow(QtGui.QMainWindow):
               
         self.menubar.addAction(self.menuAdd_Hub.menuAction())
         
-        self.routeAction = QtGui.QAction(QtGui.QIcon('Images/route.png'), 'Add Customer Route', MainWindow)
+        self.routeAction = QtGui.QAction(QtGui.QIcon('Images/route.png'), 'Update Customer Price', MainWindow)
         
         self.routeAction.setShortcut('Ctrl+R')
-        self.routeAction.setIconText('Add Customer Route')
+        self.routeAction.setIconText('Update Customer Price')
         
         self.revisitAction = QtGui.QAction(QtGui.QIcon('Images/revisit.png'), 'History', MainWindow)
         self.revisitAction.setShortcut('Ctrl+E')
@@ -145,9 +145,9 @@ class Ui_MainWindow(QtGui.QMainWindow):
         self.routesAction.setShortcut('Ctrl+R')
         self.routesAction.setIconText('Transport Routes')
         
-        self.transportAction = QtGui.QAction(QtGui.QIcon('Images/transport.png'), 'Add Transport Route', MainWindow)
+        self.transportAction = QtGui.QAction(QtGui.QIcon('Images/transport.png'), 'Update Transport Cost', MainWindow)
         self.transportAction.setShortcut('Ctrl+R')
-        self.transportAction.setIconText('Add Transport Route')
+        self.transportAction.setIconText('Update Transport Cost')
         
         self.discontinueAction = QtGui.QAction(QtGui.QIcon('Images/discontinue.png'), 'Discontinue Transport Route', MainWindow)
         self.discontinueAction.setShortcut('Ctrl+R')
@@ -200,8 +200,8 @@ class Ui_MainWindow(QtGui.QMainWindow):
        # self.bt_Reports.setText(_translate("MainWindow", "Reports", None))
         self.menuAdd_Hub.setTitle(_translate("MainWindow", "Menu", None))
         self.actionAdd_Hub.setText(_translate("MainWindow", "Add City", None))
-        self.actionAdd_TransportRoute.setText(_translate("MainWindow", "Add Transport Route", None))
-        self.actionAdd_CustomerRoute.setText(_translate("MainWindow", "Add Customer Route", None))
+        self.actionAdd_TransportRoute.setText(_translate("MainWindow", "Update Transport Cost", None))
+        self.actionAdd_CustomerRoute.setText(_translate("MainWindow", "Update Customer Price", None))
         self.actionAdd_Mail_Item.setText(_translate("MainWindow", "Add Mail", None))
         self.actionAdd_Company.setText(_translate("MainWindow", "MCompanys", None))
         self.actionAdd_History.setText(_translate("MainWindow", "History", None))

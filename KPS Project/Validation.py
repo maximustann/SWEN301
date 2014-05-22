@@ -92,7 +92,7 @@ def validate(eventDict):
         # check correct format
         if not (valueToFloat(eventDict.get("Frequency"))):
             errorMessages.append("Frequency not in real format");
-        elif not (float(eventDict.get("Frequency")>0)):
+        elif not (float(eventDict.get("Frequency"))>0):
             errorMessages.append("Frequency must be greater than 0");
            
     if(eventDict.get("Duration") != None):
