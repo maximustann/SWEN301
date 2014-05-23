@@ -89,18 +89,6 @@ class Mail_Item_Dialog(QtGui.QDialog):
             if row == None:
                 break
             self.ui.comboBox_3.addItem(row[0])
-    '''        
-    def setTransportType(self):
-        self.cur.execute("SELECT Type from TransportTypes")
-        i = 0
-        while True:
-            row = self.cur.fetchone()
-            if row == None:
-                break
-            self.ui.comboBox.addItem("")
-            self.ui.comboBox.setItemText(i, row[0])
-            i += 1
-'''
     def setDestination(self):
         self.cur.execute("SELECT name from Cities")
         while True:
@@ -144,8 +132,19 @@ class Mail_Item_Dialog(QtGui.QDialog):
                )
         self.trans()
         if self.transport_cost() == -1:
+            reply = QtGui.QMessageBox.question(self, 'Message', 'We don\'t have this transport route.', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+            if reply == QtGui.QMessage.Yes:
+                event.accept()
+            else:
+                event.ignore()
             return -1
-        self.construct_graph()
+        if self.construct_graph() == -1:
+            reply = QtGui.QMessageBox.question(self, 'Message', 'We don\'t have this transport route.', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+            if reply == QtGui.QMessage.Yes:
+                event.accept()
+            else:
+                event.ignore()
+            return -1
         self.mail.delivertime = self.cal_duration()
         if self.costclient() == -1:
             return -1
@@ -156,6 +155,11 @@ class Mail_Item_Dialog(QtGui.QDialog):
             self.add_to_db_mail()
             self.add_to_db_business()
         else:
+            reply = QtGui.QMessageBox.question(self, 'Message', 'We don\'t have this customer route.', QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
+            if reply == QtGui.QMessage.Yes:
+                event.accept()
+            else:
+                event.ignore()
             print("customer route does not exist")
             return -1
     def add_to_db_business(self):
@@ -163,7 +167,7 @@ class Mail_Item_Dialog(QtGui.QDialog):
                 str(self.mail.destination) + "," +
                 str(self.mail.weight) + "," +
                 str(self.mail.volume) + "," +
-                str(self.mail.entrytime) + "," +
+                time.strftime("%Y-%m-%d", time.localtime(self.mail.entrytime)) + "," +
                 str(self.mail.priority) + "," +
                 str(self.mail.delivertime) + ")")
         self.cur.execute(sql)
@@ -239,8 +243,10 @@ class Mail_Item_Dialog(QtGui.QDialog):
             raw_data.append(data)
         for meta in raw_data:
             graph.make_link(self.G, meta.keys()[0], meta.values()[0].keys()[0], meta.values()[0].values()[0])
-
-        self.path = dij.shortestPath(self.G, self.mail.origin, self.mail.destination)
+        try:
+            self.path = dij.shortestPath(self.G, self.mail.origin, self.mail.destination)
+        except:
+            return -1
         for i in range(len(self.path) - 1):
             charge += self.G[self.path[i]][self.path[i + 1]]
         #print "charge us=", charge
