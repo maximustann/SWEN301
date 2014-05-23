@@ -21,13 +21,6 @@ INSERT INTO CustomerRoutes(Origin, Destination, Priority, PricePerGram, PricePer
 INSERT INTO CustomerRoutes(Origin, Destination, Priority, PricePerGram, PricePerCC) VALUES(1, 2, 1, 2, 2);
 INSERT INTO CustomerRoutes(Origin, Destination, Priority, PricePerGram, PricePerCC) VALUES(1, 3, 2, 1.7, 1.3);
 
-
-
-
-INSERT INTO Cities(Name) VALUES("Auckland");
-INSERT INTO Cities(Name) VALUES("Wellington");
-INSERT INTO Cities(Name) VALUES("Dunedin");
-
 INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 2, 4.0, 6.0, 1, 5.0, 5.0, 1, 1);
 INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 2, 3.0, 6.0, 1, 5.0, 5.0, 1, 1);
 INSERT INTO Mail(Origin, Destination, costKPS, costClient, Priority, Volume, Weight, TimeOfEntry, DeliverTime) VALUES(1, 2, 9.0, 6.0, 1, 5.0, 5.0, 1, 1);
